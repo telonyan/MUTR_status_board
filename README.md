@@ -7,7 +7,7 @@ For my setup, I used miniconda3 version 4.6 (not the latest version due to compa
 
 1. Install [miniconda](https://repo.anaconda.com/miniconda/)
 2. Clone this repo into a folder of your choice ([instructions](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository))
-3. Open a terminal where conda is enabled (Anaconda Prompt on Windows, Temrinal on MacOS/Linux)
+3. Open a terminal where conda is enabled (e.g. Anaconda Prompt on Windows, Temrinal on MacOS/Linux)
 4. Navigate to the folder you cloned the repo in
 5. In your terminal, run `$ conda env create`
 6. On Windows, run `$ activate reactor_status_board_test`. On MacOS/Linux, run `$ source activate reactor_status_board_test`
