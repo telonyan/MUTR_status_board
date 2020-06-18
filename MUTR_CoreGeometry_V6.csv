@@ -1,0 +1,55 @@
+﻿Module,Unit,X1,Y1,X2,Y2,State
+Fuel Bundle,A,281,161,399,279,A
+Fuel Bundle,B,401,161,519,279,B
+Fuel Bundle,C,521,161,639,279,C
+Fuel Bundle,D,641,161,759,279,D
+Fuel Bundle,E,761,161,879,279,E
+Fuel Bundle,F,881,161,999,279,F
+Fuel Bundle,G,281,281,399,399,G
+Fuel Bundle,H,401,281,519,399,H
+Fuel Bundle,I,521,281,639,399,I
+Fuel Bundle,J,641,281,759,399,J
+Fuel Bundle,K,761,281,879,399,K
+Fuel Bundle,L,881,281,999,399,L
+Fuel Bundle,M,281,401,399,519,M
+Fuel Bundle,N,401,401,519,519,N
+Fuel Bundle,O,521,401,639,519,O
+Fuel Bundle,P,641,401,759,519,P
+Fuel Bundle,Q,761,401,879,519,Q
+Fuel Bundle,R,881,401,999,519,R
+Fuel Bundle,S,281,521,399,639,S
+Fuel Bundle,T,401,521,519,639,T
+Fuel Bundle,U,521,521,639,639,U
+Fuel Bundle,V,641,521,759,639,V
+Fuel Bundle,W,881,521,999,639,2
+Fuel Bundle,X,761,641,879,759,X
+Fuel Bundle,New 1,,,,,6
+Fuel Bundle,New 2,,,,,7
+Fuel Bundle,New 3,,,,,8
+Fuel Bundle,New 4,,,,,9
+Fuel Bundle,New 5,,,,,10
+Reflector,1,1002,282,1118,398,
+Reflector,2,1002,402,1118,518,
+PuBe Source,,522,642,638,758,
+Beam Port,1,40,340,160,580,
+Beam Port,2,1240,340,1360,580,
+Thermal Column,,260,20,1020,158,
+Through Tube,,40,780,1360,880,
+CIC,1,402,42,518,158,
+CIC,2,762,42,878,158,
+FC,,162,162,278,278,
+IC,,1002,162,1118,278,
+Rabbit,,762,522,878,638,
+Storage,1,52,902,148,998,
+Storage,2,152,902,248,998,
+Storage,3,252,902,348,998,
+Storage,4,352,902,448,998,
+Storage,5,452,902,548,998,
+Storage,6,552,902,648,998,
+Storage,7,652,902,748,998,
+Storage,8,752,902,848,998,
+Storage,9,852,902,948,998,
+Storage,10,952,902,1048,998,
+Storage,11,1052,902,1148,998,
+Storage,12,1152,902,1248,998,
+Storage,13,1252,902,1348,998,

@@ -1,0 +1,58 @@
+0,Canvas,Module,State,X1,Y1,Width,Height,Font,Key
+1,Control_Canvas,Open Thermal Column,Visible,13,30,30,2,20,
+2,Control_Canvas,Close Thermal Column,Visible,13,175,30,2,20,
+3,Control_Canvas,Beam Port 1,Visible,13,320,30,2,20,
+4,Control_Canvas,Beam Port 2,Visible,13,465,30,2,20,
+5,Control_Canvas,Rabbit,Visible,13,610,30,2,20,
+6,Control_Canvas,Through Tube,Visible,13,755,30,2,20,
+7,Control_Canvas,Remove Fuel,Visible,13,900,30,2,20,
+8,Core_Canvas,Select Element,Hidden,321,208,5,1,8,A
+9,Core_Canvas,Select Element,Hidden,441,208,5,1,8,B
+10,Core_Canvas,Select Element,Hidden,561,208,5,1,8,C
+11,Core_Canvas,Select Element,Hidden,681,208,5,1,8,D
+12,Core_Canvas,Select Element,Hidden,801,208,5,1,8,E
+13,Core_Canvas,Select Element,Hidden,921,208,5,1,8,F
+14,Core_Canvas,Select Element,Hidden,321,328,5,1,8,G
+15,Core_Canvas,Select Element,Hidden,441,328,5,1,8,H
+16,Core_Canvas,Select Element,Hidden,561,328,5,1,8,I
+17,Core_Canvas,Select Element,Hidden,681,328,5,1,8,J
+18,Core_Canvas,Select Element,Hidden,801,328,5,1,8,K
+19,Core_Canvas,Select Element,Hidden,921,328,5,1,8,L
+20,Core_Canvas,Select Element,Hidden,321,448,5,1,8,M
+21,Core_Canvas,Select Element,Hidden,441,448,5,1,8,N
+22,Core_Canvas,Select Element,Hidden,561,448,5,1,8,O
+23,Core_Canvas,Select Element,Hidden,681,448,5,1,8,P
+24,Core_Canvas,Select Element,Hidden,801,448,5,1,8,Q
+25,Core_Canvas,Select Element,Hidden,921,448,5,1,8,R
+26,Core_Canvas,Select Element,Hidden,321,568,5,1,8,S
+27,Core_Canvas,Select Element,Hidden,441,568,5,1,8,T
+28,Core_Canvas,Select Element,Hidden,561,568,5,1,8,U
+29,Core_Canvas,Select Element,Hidden,681,568,5,1,8,V
+30,Core_Canvas,Select Element,Hidden,921,568,5,1,8,W
+31,Core_Canvas,Select Element,Hidden,801,688,5,1,8,X
+32,Core_Canvas,Select Container,Hidden,80,963,5,1,8,1
+33,Core_Canvas,Select Container,Hidden,180,963,5,1,8,2
+34,Core_Canvas,Select Container,Hidden,280,963,5,1,8,3
+35,Core_Canvas,Select Container,Hidden,380,963,5,1,8,4
+36,Core_Canvas,Select Container,Hidden,480,963,5,1,8,5
+37,Core_Canvas,Select Container,Hidden,580,963,5,1,8,6
+38,Core_Canvas,Select Container,Hidden,680,963,5,1,8,7
+39,Core_Canvas,Select Container,Hidden,780,963,5,1,8,8
+40,Core_Canvas,Select Container,Hidden,880,963,5,1,8,9
+41,Core_Canvas,Select Container,Hidden,980,963,5,1,8,10
+42,Core_Canvas,Select Container,Hidden,1080,963,5,1,8,11
+43,Core_Canvas,Select Container,Hidden,1180,963,5,1,8,12
+44,Core_Canvas,Select Container,Hidden,1280,963,5,1,8,13
+45,Core_Canvas,Return Fuel,Hidden,80,963,5,1,8,1
+46,Core_Canvas,Return Fuel,Hidden,180,963,5,1,8,2
+47,Core_Canvas,Return Fuel,Hidden,280,963,5,1,8,3
+48,Core_Canvas,Return Fuel,Hidden,380,963,5,1,8,4
+49,Core_Canvas,Return Fuel,Hidden,480,963,5,1,8,5
+50,Core_Canvas,Return Fuel,Hidden,580,963,5,1,8,6
+51,Core_Canvas,Return Fuel,Hidden,680,963,5,1,8,7
+52,Core_Canvas,Return Fuel,Hidden,780,963,5,1,8,8
+53,Core_Canvas,Return Fuel,Hidden,880,963,5,1,8,9
+54,Core_Canvas,Return Fuel,Hidden,980,963,5,1,8,10
+55,Core_Canvas,Return Fuel,Hidden,1080,963,5,1,8,11
+56,Core_Canvas,Return Fuel,Hidden,1180,963,5,1,8,12
+57,Core_Canvas,Return Fuel,Hidden,1280,963,5,1,8,13
