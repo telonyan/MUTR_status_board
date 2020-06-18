@@ -42,7 +42,7 @@ Color_Dict ={"Fuel Bundle":'#3F3B35', "Fuel Element":'#1E3A95',
 
 #Importing FuelElement_Data
 FuelElement_Data_Dict = {}
-with open('MUTR_FuelElements_V5.csv', encoding='utf-8-sig') as FuelElement_Data:
+with open('fuel_elements.csv', encoding='utf-8-sig') as FuelElement_Data:
     read_FuelElement_Data = csv.reader(FuelElement_Data, delimiter=',')
     for row in read_FuelElement_Data:
         FuelElement_Data_Dict[row[0]] = [ row[1],row[2],row[3],row[4] ]
@@ -66,7 +66,7 @@ Y2 = []
 State = []
 fuel_states = {}
 
-with open('MUTR_CoreGeometry_V7.csv', encoding='utf-8-sig') as CoreGeometry_Data:
+with open('core_geometry.csv', encoding='utf-8-sig') as CoreGeometry_Data:
     read_CoreGeometry_Data = csv.reader(CoreGeometry_Data, delimiter=',')
     for row in read_CoreGeometry_Data:
         Module.append(row[0])
@@ -90,7 +90,7 @@ Container_Dict = {}
 
 #Importing dictionary of buttons
 Control_Dict = {}
-with open('MUTR_ControlWidget_Properties_V5.csv', encoding='utf-8-sig') as ControlWidget_Data:
+with open('control_widgets.csv', encoding='utf-8-sig') as ControlWidget_Data:
     read_ControlWidget_Data = csv.reader(ControlWidget_Data, delimiter=',')
     for row in read_ControlWidget_Data:
         Control_Dict[int(row[0])] = [ row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9]  ] 
