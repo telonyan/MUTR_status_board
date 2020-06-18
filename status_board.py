@@ -6,7 +6,7 @@ Future Improvements:
     -Need to create popup to ask for data. 
     -Need to create method to store data in spreadsheet.1)Experimental Ports:
     -Display/Document experiments
-    -Ex: rabit in core, experiment in beam port2)Fuel Movement:
+    -Ex: rabbit in core, experiment in beam port2)Fuel Movement:
     -Suppress buttons for invalid operations from displaying 
 """
 # In[1]: imports
