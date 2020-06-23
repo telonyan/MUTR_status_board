@@ -1,5 +1,5 @@
 # MUTR_status_board
-A status board for the Maryland University Training Reactor.
+A status board for the Maryland University Training Reactor
 
 ## Getting Started
 You will need to be able to run conda and git.
