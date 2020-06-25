@@ -1,1 +1,1 @@
-These files were written by Mark Van Selous before I came onto the project.
+MUTR_ControlWidget_Properties_V5, MUTR_CoreGEometry_V6, MUTR_FuelElements_V4, and MUTR_StatusBoard_V6, were written by Mark Van Selous before I came onto the project. In status_board, I fixed issues with MUTR_StatusBoard_V6, added documentation, and improved code formatting, but the essence of the program is unchanged.

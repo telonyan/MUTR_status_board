@@ -2,6 +2,7 @@
 """
 Start page of the MUTR Status board
 
+Conducted under the Unversity of Maryland
 Created on Wed Jun 24 16:34:55 2020
 @author: Telon J. Yan
 """
