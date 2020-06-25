@@ -16,7 +16,6 @@ Additional desired functionality:
 """
 # In[1]: imports
 
-
 import tkinter as tk
 from tkinter import messagebox
 import csv
