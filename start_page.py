@@ -8,7 +8,6 @@ Created on Wed Jun 24 16:34:55 2020
 """
 # %% Imports
 import tkinter as tk
-from tkinter import ttk
 
 # %% Start page class
 class StartPage(tk.Frame):
@@ -17,7 +16,7 @@ class StartPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         
-        #Add objects in start page window
+        # Add objects in start page window
         title_label = tk.Label(self, text="MUTR Core", font=controller.LARGE_FONT)
         title_label.pack(side="top", fill="x", pady=10)
         

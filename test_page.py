@@ -8,7 +8,6 @@ Created on Wed Jun 24 16:42:17 2020
 """
 # %% Imports
 import tkinter as tk
-from tkinter import ttk
 
 # %% Other page class
 class TestPage(tk.Frame):
