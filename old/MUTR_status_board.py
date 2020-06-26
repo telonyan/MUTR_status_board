@@ -9,7 +9,7 @@ This status board:
 
 @author: Telon Yan, Michael Van Selous
 """
-# In[1]: imports
+# In[1]: Imports
 
 import tkinter as tk
 from tkinter import messagebox

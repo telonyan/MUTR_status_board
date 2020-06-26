@@ -10,9 +10,19 @@ Created on Wed Jun 24 16:34:55 2020
 import tkinter as tk
 
 # %% Start page class
-class StartPage(tk.Frame):
+class CorePage(tk.Frame):
+    """
+    This class, a subclass of tkinter.Frame, creates a tkinder window showing
+    the MUTR reactor core configuration and buttons to interact with upon 
+    initialization
+    """
     
     def __init__(self, parent, controller):
+        """
+        Overrides tkinter.Frame.__init__() to construct a Frame and populate it
+        with the contents of what we want from the core page (window)
+        """
+        
         tk.Frame.__init__(self, parent)
         self.controller = controller
         

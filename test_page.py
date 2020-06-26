@@ -19,6 +19,6 @@ class TestPage(tk.Frame):
         title_label = tk.Label(self, text="This is page 1", font=controller.LARGE_FONT)
         title_label.pack(side="top", fill="x",pady=10)
         
-        button0 = tk.Button(self, text="Go to the start page", font=controller.SMALL_FONT, 
-                           command=lambda: controller.show_frame("StartPage"))
+        button0 = tk.Button(self, text="Go to the core page", font=controller.SMALL_FONT, 
+                           command=lambda: controller.show_frame("CorePage"))
         button0.pack()
