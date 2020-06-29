@@ -4,7 +4,7 @@ A status board for the Maryland University Training Reactor
 ## Getting Started
 You will need to be able to run conda and git.
 
-1. Install [miniconda](https://docs.conda.io/en/latest/miniconda.html). For my setup, I used miniconda3 version 4.6 which can be found [here](https://repo.anaconda.com/miniconda/). This was chosen due to compatibility issues with [pyfirmata](https://pypi.org/project/pyFirmata/), but may be resolve in the future.
+1. Install [miniconda](https://docs.conda.io/en/latest/miniconda.html). For my setup, I used miniconda3 version 4.6 which can be found [here](https://repo.anaconda.com/miniconda/) in the installer archives. This was chosen due to compatibility issues with [pyfirmata](https://pypi.org/project/pyFirmata/), but may be resolve in the future.
 2. Clone this repo into a directory ([instructions](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository))
 3. Open a terminal where conda is enabled (e.g. Anaconda Prompt on Windows, Terminal on MacOS/Linux)
 4. Navigate to the folder you cloned the repo in
