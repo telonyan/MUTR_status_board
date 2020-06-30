@@ -44,9 +44,10 @@ class StatusBoard(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         ## Define attributes
-        # width and height to be calculated later
+        # width, height, and cell size to be calculated with self.__determine_window_size()
         self.width = 0
         self.height = 0
+        self.cell_size = 0
         # The fonts we want to use
         self.LARGE_FONT = ("Helvetica", 12, "bold")
         self.MEDIUM_FONT = ("Helvetica", 10)
@@ -142,8 +143,8 @@ class StatusBoard(tk.Tk):
     # %% determine_window_size method
     def __determine_window_size(self):
         """
-        Private method that sets self.width and self.height to appropriate values given the size of the computer 
-        screen being used and desired tkinter window ratio.
+        Private method that sets self.width, self.height, and self.cell_size to appropriate values given 
+        the size of the computer screen being used and desired tkinter window ratio.
 
         Parameters:
             None
@@ -151,14 +152,19 @@ class StatusBoard(tk.Tk):
         Returns
             None
         """
-        screen_height = self.winfo_screenheight()
+        # -80 is to account for the typical size of taskbars and such
+        screen_height = self.winfo_screenheight() - 80
         screen_width = self.winfo_screenwidth()
 
         if (float(screen_height) / screen_width) > (float(self._NUM_HEIGHT_BLOCKS) / self._NUM_LENGTH_BLOCKS):
             # Highest px # of an exact multiple of the # lengthwise blocks we want
-            self.width = (screen_width // self._NUM_LENGTH_BLOCKS) * self._NUM_LENGTH_BLOCKS
+            self.cell_size = screen_width // self._NUM_LENGTH_BLOCKS
+            self.width = self.cell_size * self._NUM_LENGTH_BLOCKS
             self.height = self.width * self._NUM_HEIGHT_BLOCKS // self._NUM_LENGTH_BLOCKS
         else: 
             # Highest px # of an exact multiple of the # heightwise blocks we want
-            self.height = (screen_height // self._NUM_HEIGHT_BLOCKS) * self._NUM_HEIGHT_BLOCKS
+            self.cell_size = screen_height // self._NUM_HEIGHT_BLOCKS
+            self.height = self.cell_size * self._NUM_HEIGHT_BLOCKS
             self.width = self.height * self._NUM_LENGTH_BLOCKS // self._NUM_HEIGHT_BLOCKS
+        
+        #print(str(self.width) + ", " + str(self.height) + ", " + str(self.cell_size))
