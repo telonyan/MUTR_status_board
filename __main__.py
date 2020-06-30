@@ -8,6 +8,6 @@ Created on Tue Jun 23 10:57:39 2020
 """
 from status_board import StatusBoard
 
-master = StatusBoard()
-master.geometry("1280x720")
-master.mainloop()
+if __name__ == "__main__":
+    master = StatusBoard()
+    master.mainloop()

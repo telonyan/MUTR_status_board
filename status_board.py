@@ -43,30 +43,25 @@ class StatusBoard(tk.Tk):
         
         tk.Tk.__init__(self, *args, **kwargs)
 
-        # Define attributes
+        ## Define attributes
+        # width and height to be calculated later
+        self.width = 0
+        self.height = 0
         # The fonts we want to use
         self.LARGE_FONT = ("Helvetica", 12, "bold")
         self.MEDIUM_FONT = ("Helvetica", 10)
         self.SMALL_FONT = ("Helvetica", 8)
         # Dictionary of string frame names to Frame instances
         self.frames = {}
+        # "Private" variables
+        self._NUM_LENGTH_BLOCKS = 26
+        self._NUM_HEIGHT_BLOCKS = 19
 
-        ## Set up menubar
-        menubar = tk.Menu(self)
-        # File submenu
-        filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label="Save Configuration", command=lambda: self.popup_message("Not yet supported"))
-        filemenu.add_command(label="Load Configuration", command=lambda: self.popup_message("Not yet supported"))
-        filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=self.destroy)
-        # Add elements to bar
-        menubar.add_cascade(label="File", menu=filemenu)
-        menubar.add_command(label="Options", command=lambda: self.popup_message("Not yet supported"))
-        menubar.add_command(label="Help", command=lambda: self.popup_message("Not yet supported"))
 
-        self.config(menu=menubar)
+        ## Set up initial window and window properties
+        self.__determine_window_size()
+        self.geometry(str(self.width) + "x" + str(self.height))
 
-        # Set up initial window and attributes
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
@@ -84,8 +79,27 @@ class StatusBoard(tk.Tk):
         # Icon must be a .ico
         # tk.Tk.iconbitmap(self, default="DEFAULT.ico")
         self.title("MUTR Status Board")
-        # Start up the program on the core page
+
+
+        ## Set up menubar
+        menubar = tk.Menu(self)
+        # File submenu
+        filemenu = tk.Menu(menubar, tearoff=0)
+        filemenu.add_command(label="Save Configuration", command=lambda: self.popup_message("Not yet supported"))
+        filemenu.add_command(label="Load Configuration", command=lambda: self.popup_message("Not yet supported"))
+        filemenu.add_separator()
+        filemenu.add_command(label="Exit", command=self.destroy)
+        # Add elements to bar
+        menubar.add_cascade(label="File", menu=filemenu)
+        menubar.add_command(label="Options", command=lambda: self.popup_message("Not yet supported"))
+        menubar.add_command(label="Help", command=lambda: self.popup_message("Not yet supported"))
+
+        self.config(menu=menubar)
+
+
+        ## Start up the program on the core page
         self.show_frame("CorePage")
+
 
     # %% show_frame method
     def show_frame(self, page_name):
@@ -101,7 +115,7 @@ class StatusBoard(tk.Tk):
         """
         frame = self.frames[page_name]
         frame.tkraise()
-
+    
     # %% popup_message method
     def popup_message(self, message):
         """
@@ -124,3 +138,27 @@ class StatusBoard(tk.Tk):
         okaybutton.pack()
 
         popup.mainloop()
+
+    # %% determine_window_size method
+    def __determine_window_size(self):
+        """
+        Private method that sets self.width and self.height to appropriate values given the size of the computer 
+        screen being used and desired tkinter window ratio.
+
+        Parameters:
+            None
+
+        Returns
+            None
+        """
+        screen_height = self.winfo_screenheight()
+        screen_width = self.winfo_screenwidth()
+
+        if (float(screen_height) / screen_width) > (float(self._NUM_HEIGHT_BLOCKS) / self._NUM_LENGTH_BLOCKS):
+            # Highest px # of an exact multiple of the # lengthwise blocks we want
+            self.width = (screen_width // self._NUM_LENGTH_BLOCKS) * self._NUM_LENGTH_BLOCKS
+            self.height = self.width * self._NUM_HEIGHT_BLOCKS // self._NUM_LENGTH_BLOCKS
+        else: 
+            # Highest px # of an exact multiple of the # heightwise blocks we want
+            self.height = (screen_height // self._NUM_HEIGHT_BLOCKS) * self._NUM_HEIGHT_BLOCKS
+            self.width = self.height * self._NUM_LENGTH_BLOCKS // self._NUM_HEIGHT_BLOCKS
