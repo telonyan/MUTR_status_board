@@ -1,6 +1,0 @@
-﻿Type of Element,Name,Top Left Coord,Bottom Right Coord,Contains Fuel,Contains Sample,Containee Properties
-Base,Thermal Column,2E,3P,0,0,
-Sample Chamber,CIC 1,2G,3H,0,0,
-Sample Chamber,CIC 2,2M,3N,0,0,
-Fuel Bundle,F8,4E,5F,1,0,"1111,1112,1113,1114"
-Fuel Storage,Storage1,18A,18A,1,0,"F8:1111,1112,1113,1114"

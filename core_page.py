@@ -33,3 +33,17 @@ class CorePage(tk.Frame):
         button1 = tk.Button(self, text="Go to Test Page", font=controller.SMALL_FONT, 
                             command=lambda: controller.show_frame("TestPage"))
         button1.pack()
+
+    def load_configuration(self, filename="configuration.csv"):
+        """
+        Parses a .csv file of a reactor core's configuration and
+        and loads the elements onto the tkinter window.
+        
+        Parameters:
+            filename (String): The filename of the csv core configuration file.
+            This defaults to configuration.csv if not specified.
+
+        Returns:
+            True (boolean) if the loading was successful, False otherwise
+        """
+        
