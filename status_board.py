@@ -60,7 +60,10 @@ class StatusBoard(tk.Tk):
 
 
         ## Set up initial window and window properties
-        self.__determine_window_size()
+        # Determine desired width, height, and cell size of window
+        if not self.__determine_window_size():
+            self.popup_message("Your screen is not large enough to display this!")
+        # Set desired width & height of window
         self.geometry(str(self.width) + "x" + str(self.height))
 
         container = tk.Frame(self)
@@ -81,6 +84,7 @@ class StatusBoard(tk.Tk):
         # tk.Tk.iconbitmap(self, default="DEFAULT.ico")
         self.title("MUTR Status Board")
 
+        self.frames["CorePage"].load_configuration()
 
         ## Set up menubar
         menubar = tk.Menu(self)
@@ -109,7 +113,7 @@ class StatusBoard(tk.Tk):
 
         Parameters:
             page_name (String): The name associated with a page, also the name 
-            of the class that page belongs to (e.g. "CorePage")
+                of the class that page belongs to (e.g. "CorePage")
             
         Returns:
             None
@@ -143,28 +147,37 @@ class StatusBoard(tk.Tk):
     # %% determine_window_size method
     def __determine_window_size(self):
         """
-        Private method that sets self.width, self.height, and self.cell_size to appropriate values given 
-        the size of the computer screen being used and desired tkinter window ratio.
+        Private method that sets self.width, self.height, and self.cell_size to 
+        appropriate values given the size of the computer screen being used and 
+        desired tkinter window ratio specified by private variables (unnecessary
+        to be seen).
 
         Parameters:
             None
 
         Returns
-            None
+            True if succeeded, False if the screen fails to be suitable for display.
+            If failed, no assignment takes place.
         """
         # -80 is to account for the typical size of taskbars and such
         screen_height = self.winfo_screenheight() - 80
         screen_width = self.winfo_screenwidth()
-
-        if (float(screen_height) / screen_width) > (float(self._NUM_HEIGHT_BLOCKS) / self._NUM_LENGTH_BLOCKS):
-            # Highest px # of an exact multiple of the # lengthwise blocks we want
-            self.cell_size = screen_width // self._NUM_LENGTH_BLOCKS
-            self.width = self.cell_size * self._NUM_LENGTH_BLOCKS
-            self.height = self.width * self._NUM_HEIGHT_BLOCKS // self._NUM_LENGTH_BLOCKS
-        else: 
-            # Highest px # of an exact multiple of the # heightwise blocks we want
-            self.cell_size = screen_height // self._NUM_HEIGHT_BLOCKS
-            self.height = self.cell_size * self._NUM_HEIGHT_BLOCKS
-            self.width = self.height * self._NUM_LENGTH_BLOCKS // self._NUM_HEIGHT_BLOCKS
         
-        #print(str(self.width) + ", " + str(self.height) + ", " + str(self.cell_size))
+        if (screen_height > 0) and (screen_width > 0):
+
+            if (float(screen_height) / screen_width) > (float(self._NUM_HEIGHT_BLOCKS) / self._NUM_LENGTH_BLOCKS):
+                # Highest px # of an exact multiple of the # lengthwise blocks we want
+                self.cell_size = screen_width // self._NUM_LENGTH_BLOCKS
+                self.width = self.cell_size * self._NUM_LENGTH_BLOCKS
+                self.height = self.width * self._NUM_HEIGHT_BLOCKS // self._NUM_LENGTH_BLOCKS
+            else: 
+                # Highest px # of an exact multiple of the # heightwise blocks we want
+                self.cell_size = screen_height // self._NUM_HEIGHT_BLOCKS
+                self.height = self.cell_size * self._NUM_HEIGHT_BLOCKS
+                self.width = self.height * self._NUM_LENGTH_BLOCKS // self._NUM_HEIGHT_BLOCKS
+            
+            #print(str(self.width) + ", " + str(self.height) + ", " + str(self.cell_size))
+            return True
+
+        else:
+            return False

@@ -8,6 +8,7 @@ Created on Wed Jun 24 16:34:55 2020
 """
 # %% Imports
 import tkinter as tk
+import csv
 
 # %% Start page class
 class CorePage(tk.Frame):
@@ -21,11 +22,28 @@ class CorePage(tk.Frame):
         """
         Overrides tkinter.Frame.__init__() to construct a Frame and populate it
         with the contents of what we want from the core page (window)
+
+        An instance of this' parent is the Frame instance in status_board.py 
+        and its controller is the StatusBoard(tk.Tk)
         """
-        
+        # Inheritance
         tk.Frame.__init__(self, parent)
         self.controller = controller
         
+        # Variables in this reactor core page instance
+        # These dictionaries are dumb rn - think about how you want to structure this
+        self.fuel_locations = {}
+        self.sample_chambers = {}
+        self.fuel_storages = {}
+
+        # Set up page properties (grid)
+        self.grid_rowconfigure(0, weight=1, minsize=controller.cell_size)
+        self.grid_columnconfigure(0, weight=1, minsize=controller.cell_size)
+        
+        # Load core
+        if not self.load_configuration():
+            controller.popup_message("configuration.csv file not found!")
+
         # Add objects in start page window
         title_label = tk.Label(self, text="MUTR Core", font=controller.LARGE_FONT)
         title_label.pack(side="top", fill="x", pady=10)
@@ -41,9 +59,36 @@ class CorePage(tk.Frame):
         
         Parameters:
             filename (String): The filename of the csv core configuration file.
-            This defaults to configuration.csv if not specified.
+                This defaults to configuration.csv if not specified by user.
 
         Returns:
             True (boolean) if the loading was successful, False otherwise
         """
-        
+        try:
+            with open(filename, encoding='utf-8-sig') as core_configuration_data:
+                core_reader = csv.reader(core_configuration_data, delimiter=',')
+                
+                # Per row of csv, add stuff
+                for row in core_reader:
+                    # print(row)
+                    pass
+
+            return True
+        except OSError:
+            return False
+
+    def get_pxlocation(self, topleft, bottomright):
+        """
+        Given two [0-9][A-Z] format coordinates (e.g. as in configuration.csv)
+        and properties of the Frame
+
+        Parameters:
+            topleft (String): the top left coordinate in [0-9][A-Z] format of some
+                rectanglar area as in configuration.csv
+            bottomright (String): the bottom right coordinate of said rectangular area
+
+        Returns:
+            Tuple of four length-2 tuples: the four coordinates (in px) of the corners
+            of the rectangle created by the topleft and bottomright [0-9][A-Z] coordinates
+        """
+        pass
