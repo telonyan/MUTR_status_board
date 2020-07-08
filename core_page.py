@@ -9,6 +9,7 @@ Created on Wed Jun 24 16:34:55 2020
 # %% Imports
 import tkinter as tk
 import csv
+import re
 
 # %% Start page class
 class CorePage(tk.Frame):
@@ -67,12 +68,12 @@ class CorePage(tk.Frame):
         """
         try:
             with open(filename, encoding='utf-8-sig') as core_configuration_data:
-                core_reader = csv.reader(core_configuration_data, delimiter=',')
+                core_reader = csv.DictReader(core_configuration_data, delimiter=',')
                 
                 # Per row of csv, add stuff
                 for row in core_reader:
-                    # print(row)
-                    pass
+                    #print(row)
+                    print(row["Type of Element"], row["Name"], row["Top Left Coordinate"], row["Bottom Right Coordinate"], row["Contains"])
 
             return True
         except OSError:
@@ -81,7 +82,9 @@ class CorePage(tk.Frame):
     def get_pxlocation(self, topleft, bottomright):
         """
         Given two [0-9][A-Z] format coordinates (e.g. as in configuration.csv)
-        and properties of the Frame
+        and properties of the Frame, returns pixel (int) coordinates corresponding
+        to them. Assumes the [0-9][A-Z] grid has no more than 26 columns (does not
+        support multiple alphanumeric letters)
 
         Parameters:
             topleft (String): the top left coordinate in [0-9][A-Z] format of some
@@ -89,7 +92,15 @@ class CorePage(tk.Frame):
             bottomright (String): the bottom right coordinate of said rectangular area
 
         Returns:
-            Tuple of four length-2 tuples: the four coordinates (x px, y px) of the corners
-            of the rectangle created by the topleft and bottomright [0-9][A-Z] coordinates
+            Tuple of two length-2 tuples: the topleft and bottomright coordinates of the corners
+            of the rectangle in pixels instead of [0-9][A-Z]
         """
-        pass
+        topleft_split = re.compile("([0-9]+)([a-ZA-Z]+)").match(topleft).groups()
+        bottomright_split = re.compile("([0-9]+)([a-ZA-Z]+)").match(bottomright).groups()
+
+        topleft_tuple = ((topleft_split[0]-1)*self.controller.cell_size, 
+                        (ord(topleft_split[1].lower())-96-1)*self.controller.cell_size)
+        bottomright_tuple = (bottomright_split[0]*self.controller.cell_size, 
+                        (ord(bottomright_split[1].lower())-96)*self.controller.cell_size)
+
+        return (topleft_tuple, bottomright_tuple)

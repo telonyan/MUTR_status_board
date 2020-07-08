@@ -1,4 +1,4 @@
-﻿Type of Element,Name,Top Left Coord,Bottom Right Coord,Containee Properties
+﻿Type of Element,Name,Top Left Coordinate,Bottom Right Coordinate,Contains
 Base,Thermal Column,2E,3P,
 Sample Chamber,CIC 1,2G,3H,
 Sample Chamber,CIC 2,2M,3N,

@@ -84,8 +84,6 @@ class StatusBoard(tk.Tk):
         # tk.Tk.iconbitmap(self, default="DEFAULT.ico")
         self.title("MUTR Status Board")
 
-        self.frames["CorePage"].load_configuration()
-
         ## Set up menubar
         menubar = tk.Menu(self)
         # File submenu
@@ -159,8 +157,8 @@ class StatusBoard(tk.Tk):
             True if succeeded, False if the screen fails to be suitable for display.
             If failed, no assignment takes place.
         """
-        # -80 is to account for the typical size of taskbars and such
-        screen_height = self.winfo_screenheight() - 80
+        # -100 is to account for the typical size of taskbars and a little extra room
+        screen_height = self.winfo_screenheight() - 100
         screen_width = self.winfo_screenwidth()
         
         if (screen_height > 0) and (screen_width > 0):
