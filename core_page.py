@@ -40,17 +40,18 @@ class CorePage(tk.Frame):
         self.grid_rowconfigure(0, weight=1, minsize=controller.cell_size)
         self.grid_columnconfigure(0, weight=1, minsize=controller.cell_size)
         
-        # Load core
+        # Load core if config exists
         if not self.load_configuration():
+            controller.destroy()
             controller.popup_message("configuration.csv file not found!")
-
-        # Add objects in start page window
-        title_label = tk.Label(self, text="MUTR Core", font=controller.LARGE_FONT)
-        title_label.pack(side="top", fill="x", pady=10)
-        
-        button1 = tk.Button(self, text="Go to Test Page", font=controller.SMALL_FONT, 
-                            command=lambda: controller.show_frame("TestPage"))
-        button1.pack()
+        else:
+            # Add objects in start page window
+            title_label = tk.Label(self, text="MUTR Core", font=controller.LARGE_FONT)
+            title_label.pack(side="top", fill="x", pady=10)
+            
+            button1 = tk.Button(self, text="Go to Test Page", font=controller.SMALL_FONT, 
+                                command=lambda: controller.show_frame("TestPage"))
+            button1.pack()
 
     def load_configuration(self, filename="configuration.csv"):
         """
@@ -88,7 +89,7 @@ class CorePage(tk.Frame):
             bottomright (String): the bottom right coordinate of said rectangular area
 
         Returns:
-            Tuple of four length-2 tuples: the four coordinates (in px) of the corners
+            Tuple of four length-2 tuples: the four coordinates (x px, y px) of the corners
             of the rectangle created by the topleft and bottomright [0-9][A-Z] coordinates
         """
         pass
