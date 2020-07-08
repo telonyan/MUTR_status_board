@@ -73,9 +73,11 @@ class CorePage(tk.Frame):
                 # Per row of csv, add stuff
                 for row in core_reader:
                     #print(row)
-                    print(row["Type of Element"], row["Name"], row["Top Left Coordinate"], row["Bottom Right Coordinate"], row["Contains"])
-
+                    #print(row["Type of Element"], row["Name"], row["Top Left Coordinate"], row["Bottom Right Coordinate"], row["Contains"])
+                    coord_tuple = self.get_pxlocation(row["Top Left Coordinate"], row["Bottom Right Coordinate"])
+                    
             return True
+        
         except OSError:
             return False
 
@@ -95,12 +97,12 @@ class CorePage(tk.Frame):
             Tuple of two length-2 tuples: the topleft and bottomright coordinates of the corners
             of the rectangle in pixels instead of [0-9][A-Z]
         """
-        topleft_split = re.compile("([0-9]+)([a-ZA-Z]+)").match(topleft).groups()
-        bottomright_split = re.compile("([0-9]+)([a-ZA-Z]+)").match(bottomright).groups()
-
-        topleft_tuple = ((topleft_split[0]-1)*self.controller.cell_size, 
+        topleft_split = re.compile("([0-9]+)([a-zA-Z]+)").match(topleft).groups()
+        bottomright_split = re.compile("([0-9]+)([a-zA-Z]+)").match(bottomright).groups()
+        
+        topleft_tuple = ((int(topleft_split[0])-1)*self.controller.cell_size, 
                         (ord(topleft_split[1].lower())-96-1)*self.controller.cell_size)
-        bottomright_tuple = (bottomright_split[0]*self.controller.cell_size, 
+        bottomright_tuple = (int(bottomright_split[0])*self.controller.cell_size, 
                         (ord(bottomright_split[1].lower())-96)*self.controller.cell_size)
 
         return (topleft_tuple, bottomright_tuple)
