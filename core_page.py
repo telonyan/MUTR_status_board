@@ -76,6 +76,7 @@ class CorePage(tk.Frame):
                     #print(row["Type of Element"], row["Name"], row["Top Left Coordinate"], row["Bottom Right Coordinate"], row["Contains"])
                     coord_tuple = self.get_pxlocation(row["Top Left Coordinate"], row["Bottom Right Coordinate"])
                     
+                    
             return True
         
         except OSError:
