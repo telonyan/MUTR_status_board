@@ -9,7 +9,7 @@ You will need to be able to run conda and git.
 3. Open a terminal where conda is enabled (e.g. Anaconda Prompt on Windows, Terminal on MacOS/Linux)
 4. Navigate to the folder you cloned the repo in
 5. In your terminal, run `$ conda env create`
-6. On Windows, run `$ activate reactor_status_board_test`. On MacOS/Linux, run `$ source activate reactor_status_board_test`
+6. On Windows, run `$ conda activate reactor_status_board_test`. On MacOS/Linux, run `$ conda source activate reactor_status_board_test`
 
 ## Running the Status Board
 The reactor_status_board_test environment contains packages necessary to run the program, as well packages necessary to run spyder IDE. The environment must be active for the program to run. You can set up [autoenv](https://github.com/inishchith/autoenv) for this or run `$ activate reactor_status_board_test` each time you re-open a terminal. While this environment is activated, you can run `__main__.py` to run the program (double clicking, through terminal, and through IDEs are all fine). Alternatively, you can also run
