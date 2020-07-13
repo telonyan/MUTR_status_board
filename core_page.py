@@ -27,15 +27,19 @@ class CorePage(tk.Frame):
         An instance of this' parent is the Frame instance in status_board.py 
         and its controller is the StatusBoard(tk.Tk)
         """
-        # Inheritance
+        ## Inheritance
         tk.Frame.__init__(self, parent)
         self.controller = controller
         
-        # Variables in this reactor core page instance
+        ## Variables in this reactor core page instance
+        # Constant variables
+        self.ELEMENT_TYPES = frozenset({"Base", "Sample Chamber", "Fuel Bundle", "Fuel Storage"})
+
         # These dictionaries are dumb rn - think about how you want to structure this
         self.fuel_locations = {}
         self.sample_chambers = {}
         self.fuel_storages = {}
+
 
         # Set up page properties (grid)
         self.grid_rowconfigure(0, weight=1, minsize=controller.cell_size)
@@ -54,10 +58,44 @@ class CorePage(tk.Frame):
                                 command=lambda: controller.show_frame("TestPage"))
             button1.pack()
 
+    def draw_page(self):
+        pass
+
+    def draw_element(self, element_type, name, topleft_px, bottomright_px, contains=None):
+        """
+        Draws an element specified by method parameters
+
+        Parameters:
+            element_type (String): The type of element. Must be in self.ELEMENT_TYPES
+            name (String): Name of the element, usually used to label it
+            topleft_px (tuple): (x,y) tuple of the element's top left px position
+            bottomright_px (tuple): (x,y) tuple of the element's bottom right px position
+            contains (String): Stuff contained in this element. See configuration.csv for details
+
+        Returns:
+            True (boolean) if the element was successfully drawn, False otherwise
+        """
+        if (element_type in self.ELEMENT_TYPES) and name and topleft_px and bottomright_px:
+            try:
+                if (element_type == "Base"):
+                    pass
+                elif (element_type == "Sample Chamber"):
+                    pass
+                elif (element_type == "Fuel Bundle"):
+                    pass
+                elif (element_type == "Fuel Storage"):
+                    pass
+                
+                return True
+            except:
+                pass
+        
+        return False
+
     def load_configuration(self, filename="configuration.csv"):
         """
         Parses a .csv file of a reactor core's configuration and
-        and loads the elements onto the tkinter window.
+        loads the element data into self.
         
         Parameters:
             filename (String): The filename of the csv core configuration file.
@@ -74,9 +112,16 @@ class CorePage(tk.Frame):
                 for row in core_reader:
                     #print(row)
                     #print(row["Type of Element"], row["Name"], row["Top Left Coordinate"], row["Bottom Right Coordinate"], row["Contains"])
+
+                    # Calculate pixel coordinate location
+                    # coord_tuple[0][0] = TL x, coord_tuple[0][1] = TL y, coord_tuple[1][0] = BR x, coord_tuple[1][1] = BR y
                     coord_tuple = self.get_pxlocation(row["Top Left Coordinate"], row["Bottom Right Coordinate"])
                     
-                    
+                    # Add element to self variables
+
+                    # Draw element
+                    self.draw_element(row["Type of Element"], row["Name"], coord_tuple[0], coord_tuple[1], row["Contains"])
+
             return True
         
         except OSError:
@@ -84,7 +129,7 @@ class CorePage(tk.Frame):
 
     def get_pxlocation(self, topleft, bottomright):
         """
-        Given two [0-9][A-Z] format coordinates (e.g. as in configuration.csv)
+        Given two [0-9][A-Z] format coordinates (row-column as in configuration.csv)
         and properties of the Frame, returns pixel (int) coordinates corresponding
         to them. Assumes the [0-9][A-Z] grid has no more than 26 columns (does not
         support multiple alphanumeric letters)
@@ -98,12 +143,14 @@ class CorePage(tk.Frame):
             Tuple of two length-2 tuples: the topleft and bottomright coordinates of the corners
             of the rectangle in pixels instead of [0-9][A-Z]
         """
+        # The configuration file coordinates are in row x column format, so
+        # topleft_split and bottomright_split are (y, x) right now
         topleft_split = re.compile("([0-9]+)([a-zA-Z]+)").match(topleft).groups()
         bottomright_split = re.compile("([0-9]+)([a-zA-Z]+)").match(bottomright).groups()
         
-        topleft_tuple = ((int(topleft_split[0])-1)*self.controller.cell_size, 
-                        (ord(topleft_split[1].lower())-96-1)*self.controller.cell_size)
-        bottomright_tuple = (int(bottomright_split[0])*self.controller.cell_size, 
-                        (ord(bottomright_split[1].lower())-96)*self.controller.cell_size)
+        topleft_tuple = ((ord(topleft_split[1].lower())-96-1)*self.controller.cell_size, 
+                        (int(topleft_split[0])-1)*self.controller.cell_size)
+        bottomright_tuple = ((ord(bottomright_split[1].lower())-96)*self.controller.cell_size, 
+                            int(bottomright_split[0])*self.controller.cell_size)
 
         return (topleft_tuple, bottomright_tuple)
