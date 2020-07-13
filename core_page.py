@@ -36,9 +36,8 @@ class CorePage(tk.Frame):
         self.ELEMENT_TYPES = frozenset({"Base", "Sample Chamber", "Fuel Bundle", "Fuel Storage"})
 
         # These dictionaries are dumb rn - think about how you want to structure this
+        self.fuel_bundles = {}
         self.fuel_locations = {}
-        self.sample_chambers = {}
-        self.fuel_storages = {}
 
 
         # Set up page properties (grid)
@@ -110,17 +109,27 @@ class CorePage(tk.Frame):
                 
                 # Per row of csv, add stuff
                 for row in core_reader:
-                    #print(row)
-                    #print(row["Type of Element"], row["Name"], row["Top Left Coordinate"], row["Bottom Right Coordinate"], row["Contains"])
-
+                    ## Set read values to temporary variables
+                    element_type = row["Type of Element"]
+                    element_name = row["Name"]
                     # Calculate pixel coordinate location
                     # coord_tuple[0][0] = TL x, coord_tuple[0][1] = TL y, coord_tuple[1][0] = BR x, coord_tuple[1][1] = BR y
-                    coord_tuple = self.get_pxlocation(row["Top Left Coordinate"], row["Bottom Right Coordinate"])
-                    
-                    # Add element to self variables
+                    (topleft_px, bottomright_px) = self.get_pxlocation(row["Top Left Coordinate"], row["Bottom Right Coordinate"])
+                    element_contains = row["Contains"]
+
+                    # Update CorePage variables according to element and draw element
+                    if (element_type in self.ELEMENT_TYPES) and element_name and topleft_px and bottomright_px:
+                        if (element_type == "Base"):
+                            pass
+                        elif (element_type == "Sample Chamber"):
+                            pass
+                        elif (element_type == "Fuel Bundle"):
+                            pass
+                        elif (element_type == "Fuel Storage"):
+                            pass
 
                     # Draw element
-                    self.draw_element(row["Type of Element"], row["Name"], coord_tuple[0], coord_tuple[1], row["Contains"])
+                    self.draw_element(element_type, element_name, topleft_px, bottomright_px, element_contains)
 
             return True
         
