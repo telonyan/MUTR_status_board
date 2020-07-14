@@ -33,11 +33,17 @@ class CorePage(tk.Frame):
         
         ## Variables in this reactor core page instance
         # Constant variables
-        self.ELEMENT_TYPES = frozenset({"Base", "Sample Chamber", "Fuel Bundle", "Fuel Storage"})
+        self.ELEMENT_TYPES = frozenset({"Base", "Sample Chamber", "Fuel Storage", "Fuel Bundle", "Sample"})
 
-        # These dictionaries are dumb rn - think about how you want to structure this
+        # Dictionaries that basically hold all the configuration information
+        # element_name : grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
+        self.element_coordinates = {}
+        # element_name : element_type
+        self.element_types = {}
+        # fuel element_name : fuel element_contains
         self.fuel_bundles = {}
-        self.fuel_locations = {}
+        # sample element_name : sample element_contains
+        self.samples = {}
 
 
         # Set up page properties (grid)
@@ -60,7 +66,7 @@ class CorePage(tk.Frame):
     def draw_page(self):
         pass
 
-    def draw_element(self, element_type, name, topleft_px, bottomright_px, contains=None):
+    def draw_element(self, element_type, name, topleft_coordinate, bottomright_coordinate, contains=None):
         """
         Draws an element specified by method parameters
 
@@ -74,20 +80,22 @@ class CorePage(tk.Frame):
         Returns:
             True (boolean) if the element was successfully drawn, False otherwise
         """
-        if (element_type in self.ELEMENT_TYPES) and name and topleft_px and bottomright_px:
-            try:
-                if (element_type == "Base"):
-                    pass
-                elif (element_type == "Sample Chamber"):
-                    pass
-                elif (element_type == "Fuel Bundle"):
-                    pass
-                elif (element_type == "Fuel Storage"):
-                    pass
-                
-                return True
-            except:
+        if (element_type in self.ELEMENT_TYPES) and name and topleft_coordinate and bottomright_coordinate:
+            
+            (topleft_px, bottomright_px) = self.get_pxlocation(topleft_coordinate, bottomright_coordinate)
+            
+            if (element_type == "Base"):
                 pass
+            elif (element_type == "Sample Chamber"):
+                pass
+            elif (element_type == "Fuel Storage"):
+                pass
+            elif (element_type == "Fuel Bundle"):
+                pass
+            elif (element_type == "Sample"):
+                pass
+            
+            return True
         
         return False
 
@@ -110,35 +118,44 @@ class CorePage(tk.Frame):
                 # Per row of csv, add stuff
                 for row in core_reader:
                     ## Set read values to temporary variables
-                    element_type = row["Type of Element"]
-                    element_name = row["Name"]
-                    # Calculate pixel coordinate location
-                    # coord_tuple[0][0] = TL x, coord_tuple[0][1] = TL y, coord_tuple[1][0] = BR x, coord_tuple[1][1] = BR y
-                    (topleft_px, bottomright_px) = self.get_pxlocation(row["Top Left Coordinate"], row["Bottom Right Coordinate"])
-                    element_contains = row["Contains"]
+                    temp_type = row["Type of Element"]
+                    temp_name = row["Name"]
+                    temp_topleft = row["Top Left Coordinate"]
+                    temp_bottomright = row["Bottom Right Coordinate"]
+                    temp_contains = row["Contains"]
 
-                    # Update CorePage variables according to element and draw element
-                    if (element_type in self.ELEMENT_TYPES) and element_name and topleft_px and bottomright_px:
-                        if (element_type == "Base"):
-                            pass
-                        elif (element_type == "Sample Chamber"):
-                            pass
-                        elif (element_type == "Fuel Bundle"):
-                            pass
-                        elif (element_type == "Fuel Storage"):
-                            pass
+                    if (temp_type in self.ELEMENT_TYPES):
+                        # Update CorePage variables
+                        self.element_types[temp_name] = temp_type
+                        self.element_coordinates[temp_name] = (temp_topleft, temp_bottomright)
+                        if (temp_type == "Fuel Bundle"):
+                            self.fuel_bundles[temp_name] = temp_contains
+                        elif (temp_type == "Sample"):
+                            self.samples[temp_name] = temp_contains
 
-                    # Draw element
-                    self.draw_element(element_type, element_name, topleft_px, bottomright_px, element_contains)
+                        # Draw element
+                        if self.draw_element(temp_type, temp_name, temp_topleft, temp_bottomright, temp_contains):
+                            pass
+                        else:
+                            print("Element could not be drawn")
+                            raise ValueError
+
+                    else:
+                        print("Invalid element type")
+                        raise ValueError
 
             return True
         
-        except OSError:
+        except csv.Error as e:
+            print(e)
+            return False
+        except ValueError as e:
+            print(e)
             return False
 
-    def get_pxlocation(self, topleft, bottomright):
+    def get_pxlocation(self, topleft_coordinate, bottomright_coordinate):
         """
-        Given two [0-9][A-Z] format coordinates (row-column as in configuration.csv)
+        Given two row [0-9] x column [A-Z] format coordinates (as in configuration.csv)
         and properties of the Frame, returns pixel (int) coordinates corresponding
         to them. Assumes the [0-9][A-Z] grid has no more than 26 columns (does not
         support multiple alphanumeric letters)
@@ -154,12 +171,12 @@ class CorePage(tk.Frame):
         """
         # The configuration file coordinates are in row x column format, so
         # topleft_split and bottomright_split are (y, x) right now
-        topleft_split = re.compile("([0-9]+)([a-zA-Z]+)").match(topleft).groups()
-        bottomright_split = re.compile("([0-9]+)([a-zA-Z]+)").match(bottomright).groups()
+        topleft_split = re.compile("([0-9]+)([a-zA-Z]+)").match(topleft_coordinate).groups()
+        bottomright_split = re.compile("([0-9]+)([a-zA-Z]+)").match(bottomright_coordinate).groups()
         
-        topleft_tuple = ((ord(topleft_split[1].lower())-96-1)*self.controller.cell_size, 
+        topleft_px = ((ord(topleft_split[1].lower())-96-1)*self.controller.cell_size, 
                         (int(topleft_split[0])-1)*self.controller.cell_size)
-        bottomright_tuple = ((ord(bottomright_split[1].lower())-96)*self.controller.cell_size, 
+        bottomright_px = ((ord(bottomright_split[1].lower())-96)*self.controller.cell_size, 
                             int(bottomright_split[0])*self.controller.cell_size)
 
-        return (topleft_tuple, bottomright_tuple)
+        return (topleft_px, bottomright_px)
