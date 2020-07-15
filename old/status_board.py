@@ -5,7 +5,7 @@ An interactive status board for the Maryland University Training Reactor (MUTR)
 This program will be deprecated after the code restructuring
 
 This status board:
-    - Tracks fuel bundle location
+- Tracks fuel bundle location
 
 @author: Telon Yan, Michael Van Selous
 """
@@ -21,19 +21,19 @@ import time
 
 
 COLOR_DICT ={"Fuel Bundle":'#3F3B35', "Fuel Element":'#1E3A95',
-             "IR":'#B0BC00', "CR 1":'#2DB3D8',
-             "CR 2":'#2DB3D8', "RR":'#2F958C',
-             "PuBe Source":'#44CA3A', "CIC":'#AB3674',
-             "FC":'#A41919', "IC":'#6E5F15',
-             "Rabbit":'#CA1FC7', "Reflector":'#807C8B',
-             "Beam Port":'#CACACA', "Thermal Column":'#CACACA',
-             "Through Tube":'#CACACA', "Storage":'#A8A8A8',
-             "Storage_Element":'#A5D920', "Open Thermal Column":'#1A7A18',
-             "Close Thermal Column":'#822A08', "Rack":'grey',
-             "Restore Serial":'#69A1AB', "Remove Fuel":'#3A9358',
-             "Return Fuel":'#3A9358', "Select Element":'grey',
-             "Select Container":'grey', "Beam Port 1":'#AB6330',
-             "Beam Port 2":'#AB6330'}
+            "IR":'#B0BC00', "CR 1":'#2DB3D8',
+            "CR 2":'#2DB3D8', "RR":'#2F958C',
+            "PuBe Source":'#44CA3A', "CIC":'#AB3674',
+            "FC":'#A41919', "IC":'#6E5F15',
+            "Rabbit":'#CA1FC7', "Reflector":'#807C8B',
+            "Beam Port":'#CACACA', "Thermal Column":'#CACACA',
+            "Through Tube":'#CACACA', "Storage":'#A8A8A8',
+            "Storage_Element":'#A5D920', "Open Thermal Column":'#1A7A18',
+            "Close Thermal Column":'#822A08', "Rack":'grey',
+            "Restore Serial":'#69A1AB', "Remove Fuel":'#3A9358',
+            "Return Fuel":'#3A9358', "Select Element":'grey',
+            "Select Container":'grey', "Beam Port 1":'#AB6330',
+            "Beam Port 2":'#AB6330'}
 
 
 # In[3]: Initalizing variables related to fuel element data
@@ -47,9 +47,9 @@ with open('fuel_elements.csv', encoding='utf-8-sig') as fuel_element_data:
         FUEL_ELEMENT_DATA_DICT[row[0]] = [ row[1],row[2],row[3],row[4] ]
 
 FUEL_ELEMENT_COORDS = {0:[57,57,1,1,29,29],
-                 1:[61,57,117,1,89,29],
-                 2:[57,61,1,117,29,89],
-                 3:[61,61,117,117,89,89]}
+                1:[61,57,117,1,89,29],
+                2:[57,61,1,117,29,89],
+                3:[61,61,117,117,89,89]}
 
 
 # In[4]: Initializing variables related to core geometry
@@ -102,17 +102,17 @@ class CreateCoreCanvas: #would like to update name
     def draw_reactor(canvas,module,unit,x1,y1,x2,y2):
         if module == "Fuel Bundle":
             bundle_widgets_dict[unit] = tk.Canvas(core_canvas,width = 118, height = 118,
-                                                   bg = COLOR_DICT["Fuel Bundle"],
-                                                   highlightthickness=0)
+                                                    bg = COLOR_DICT["Fuel Bundle"],
+                                                    highlightthickness=0)
             #Once we have a location for the new fuel, this can be easily generalized
             #by simply removing the if statment.
             if "New" not in unit:
                 canvas.create_rectangle(int(x1),int(y1),int(x2),int(y2),
                                         fill = COLOR_DICT["Fuel Bundle"])
                 canvas.create_oval(int(x1)+10,int(y1)+10,int(x2)-10,int(y2)-10,
-                                   fill = COLOR_DICT["Rack"])
+                                    fill = COLOR_DICT["Rack"])
                 canvas.create_text(int((int(x1)+int(x2))/2),int((int(y1)+int(y2))/2),
-                                   text=unit,font=("Verdana", 16))
+                                    text=unit,font=("Verdana", 16))
                 bundle_widgets_dict[unit].X = int(x1)
                 bundle_widgets_dict[unit].Y = int(y1)
 
@@ -123,12 +123,12 @@ class CreateCoreCanvas: #would like to update name
                 if text in ["CR 1","RR","CR 2","IR"]:
                     color = COLOR_DICT[text]
                 else:
-                     color = COLOR_DICT["Fuel Element"]
+                        color = COLOR_DICT["Fuel Element"]
                 bundle_widgets_dict[unit].create_oval(FUEL_ELEMENT_COORDS[i][0],FUEL_ELEMENT_COORDS[i][1],
-                                                          FUEL_ELEMENT_COORDS[i][2],FUEL_ELEMENT_COORDS[i][3],
-                                                          fill = color)
+                                                            FUEL_ELEMENT_COORDS[i][2],FUEL_ELEMENT_COORDS[i][3],
+                                                            fill = color)
                 bundle_widgets_dict[unit].create_text(FUEL_ELEMENT_COORDS[i][4],FUEL_ELEMENT_COORDS[i][5],
-                                                          text=text,font = (8))
+                                                            text=text,font = (8))
 
         else:
             color = COLOR_DICT[module]
@@ -138,15 +138,15 @@ class CreateCoreCanvas: #would like to update name
                                             fill = color)
             if module in ["PuBe Source","CIC","FC","IC"]:
                 canvas.create_oval(int(x1),int(y1),
-                                       int(x2),int(y2),
-                                       fill = color)
+                                        int(x2),int(y2),
+                                        fill = color)
             canvas.create_text( (int(x1)+int(x2))/2, (int(y1)+int(y2))/2,
-                               text=''.join([module," ",unit]),font = ("Verdana",10,"bold") )
+                                text=''.join([module," ",unit]),font = ("Verdana",10,"bold") )
 
         if module == "Storage":
             bundle_widgets_dict[unit] = tk.Canvas(core_canvas,width = 80, height = 80,
-                                         bg = COLOR_DICT["Storage_Element"],
-                                         highlightthickness=0)
+                                            bg = COLOR_DICT["Storage_Element"],
+                                            highlightthickness=0)
             bundle_widgets_dict[unit].X = int(x1)+8
             bundle_widgets_dict[unit].Y = int(y1)+8
             bundle_widgets_dict[unit].C_c_X = 40
@@ -155,21 +155,21 @@ class CreateCoreCanvas: #would like to update name
     def draw_fuel(unit,state):
         if state.isnumeric() == True:
             bundle_widgets_dict[state].create_text(bundle_widgets_dict[state].C_c_X,
-                                                   bundle_widgets_dict[state].C_c_Y,
-                                                   text=str(unit),font=("Verdana",10,"bold"))
+                                                    bundle_widgets_dict[state].C_c_Y,
+                                                    text=str(unit),font=("Verdana",10,"bold"))
             bundle_widgets_dict[state].place(x=bundle_widgets_dict[state].X,
-                                             y=bundle_widgets_dict[state].Y)
+                                                y=bundle_widgets_dict[state].Y)
             #Can be easaly generalized by removing if statement
             # FUel bundles placed in storage at the onset and not "new 1-5" get a return button
             if "New" not in unit:
                 for i in range(0,len(buttons)):
-                     if (buttons[i].module == "Return Fuel" and buttons[i].key == state):
-                        buttons[i].the_button.place(x=buttons[i].x1,y=buttons[i].y1)
-                        button_hit = i
-                        container_dict[state] = [unit,button_hit]
+                        if (buttons[i].module == "Return Fuel" and buttons[i].key == state):
+                            buttons[i].the_button.place(x=buttons[i].x1,y=buttons[i].y1)
+                            button_hit = i
+                            container_dict[state] = [unit,button_hit]
         else:
             bundle_widgets_dict[state].place(x=bundle_widgets_dict[state].X,
-                                             y=bundle_widgets_dict[state].Y)
+                                                y=bundle_widgets_dict[state].Y)
 
 
 
@@ -193,23 +193,23 @@ class ArduinoControl:
         self.Servo = self.board.get_pin(servo_pin_str)
         self.Servo.write(0)
 
-#         BuzzerPin_Str = ''.join(['d:',str(buzzer_pin),':p'])
-#         self.Buzzer = self.board.get_pin(BuzzerPin_Str)
+    #         BuzzerPin_Str = ''.join(['d:',str(buzzer_pin),':p'])
+    #         self.Buzzer = self.board.get_pin(BuzzerPin_Str)
 
     def open_thermal_column(self):
         try:
             self.Shutter_Motor.write(1)
-#             self.Buzzer.write(.5)
+    #             self.Buzzer.write(.5)
             time.sleep(2)
             self.Servo.write(170)
             self.Open_Light.write(1)
             self.Shutter_Motor.write(0)
-#             self.Buzzer.write(0)
+    #             self.Buzzer.write(0)
             time.sleep(0.1)
         except:
             Controls.SerialConnection_Error()
-#             messagebox.showinfo("Communication Error",
-#                                 "Serial Connection Lost! Restart this Application to Reconnect.")
+    #             messagebox.showinfo("Communication Error",
+    #                                 "Serial Connection Lost! Restart this Application to Reconnect.")
 
     def close_thermal_column(self):
         try:
@@ -248,10 +248,10 @@ class Controls:
 
         # make the button
         self.the_button = tk.Button(canvas, bg=COLOR_DICT[self.module],
-                                 command = the_command,
-                                 text=text,font = ("Purisa", font),
-                                 width = width,
-                                 height = height)
+                                    command = the_command,
+                                    text=text,font = ("Purisa", font),
+                                    width = width,
+                                    height = height)
         self.the_button.place(x=self.x1,y=self.y1)
         if init_state == "Hidden":
             self.the_button.place_forget()
@@ -284,7 +284,7 @@ class Controls:
                 buttons[i].the_button.place_forget()
             #show unfilled storage buttons
             elif (buttons[i].module == "Select Container" and
-                  buttons[i].key not in fuel_states.values()):
+                    buttons[i].key not in fuel_states.values()):
                 buttons[i].the_button.place(x=buttons[i].x1,y=buttons[i].y1)
 
         messagebox.showinfo("Remove Fuel", "Select Destination")
@@ -307,10 +307,10 @@ class Controls:
                     buttons[i].the_button.place(x=buttons[i].x1,y=buttons[i].y1)
 
         bundle_widgets_dict[key].place(x=bundle_widgets_dict[key].X,
-                                       y=bundle_widgets_dict[key].Y)
+                                        y=bundle_widgets_dict[key].Y)
         bundle_widgets_dict[key].create_text(bundle_widgets_dict[key].C_c_X,
-                                             bundle_widgets_dict[key].C_c_Y,
-                                               text=Bundle_Key,font=("Verdana",10,"bold"))
+                                                bundle_widgets_dict[key].C_c_Y,
+                                                text=Bundle_Key,font=("Verdana",10,"bold"))
         container_dict[key] = [Bundle_Key,button_hit]
 
     #after clicking a fuel in storage
@@ -320,7 +320,7 @@ class Controls:
         button_hit = container_dict[key][1] #different than the bucket number.
                                             #Tagged based off order of creation.
         bundle_widgets_dict[Bundle].place(x=bundle_widgets_dict[Bundle].X,
-                                             y=bundle_widgets_dict[Bundle].Y)
+                                                y=bundle_widgets_dict[Bundle].Y)
         bundle_widgets_dict[key].place_forget()
         buttons[button_hit].the_button.place_forget()
         del container_dict[key]
@@ -368,10 +368,10 @@ except:
 
 # TODO - Dictionary of commands for buttons - confusing placement
 COMMAND_DICT.update({"Remove Fuel":Controls.remove_fuel,
-                     "Beam Port 1":Controls.beam_port1,
-                     "Beam Port 2":Controls.beam_port2,
-                     "Rabbit":Controls.rabbit,
-                     "Through Tube":Controls.through_tube})
+                    "Beam Port 1":Controls.beam_port1,
+                    "Beam Port 2":Controls.beam_port2,
+                    "Rabbit":Controls.rabbit,
+                    "Through Tube":Controls.through_tube})
 
 CANVAS_DICT = {"Core_Canvas":core_canvas,"Control_Canvas":control_canvas}
 
@@ -379,7 +379,7 @@ CANVAS_DICT = {"Core_Canvas":core_canvas,"Control_Canvas":control_canvas}
 buttons = []
 for i in range(1,len(CONTROL_DICT)):
     buttons.append(Controls(CANVAS_DICT[CONTROL_DICT[i][0]],CONTROL_DICT[i][1],CONTROL_DICT[i][2],CONTROL_DICT[i][3],
-                   CONTROL_DICT[i][4],CONTROL_DICT[i][5],CONTROL_DICT[i][6],CONTROL_DICT[i][7],CONTROL_DICT[i][8]))
+                    CONTROL_DICT[i][4],CONTROL_DICT[i][5],CONTROL_DICT[i][6],CONTROL_DICT[i][7],CONTROL_DICT[i][8]))
 
 # FIXME this is hard coded and draw_fuel is kind of redundant
 for i in range(1,25):
@@ -399,13 +399,13 @@ master.mainloop()
 #Ensuring the shutter is closed sfter closing the application
 """
 try:
-    arduino.Open_Light.write(0)
-    arduino.Shutter_Motor.write(0)
-    arduino.Servo.write(0)
-    time.sleep(1.5)
-    arduino.board.exit()
+arduino.Open_Light.write(0)
+arduino.Shutter_Motor.write(0)
+arduino.Servo.write(0)
+time.sleep(1.5)
+arduino.board.exit()
 except:
-    messagebox.showinfo("Serial Connection Error","The serial connection was lost prior to closing the application\nPlease verify the shutter is closed.")
+messagebox.showinfo("Serial Connection Error","The serial connection was lost prior to closing the application\nPlease verify the shutter is closed.")
 """
 
 # In[11]: Save configuration for next startup
@@ -417,5 +417,5 @@ except:
 
 
 #We can now use this dict to update the Core_Geometry Spreadsheet!
-    #Need to learn how to format outputs so I dont ruin destination file.
+#Need to learn how to format outputs so I dont ruin destination file.
 #print(container_dict)
