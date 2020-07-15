@@ -12,8 +12,8 @@ You will need to be able to run conda and git.
 6. On Windows, run `$ conda activate reactor_status_board_test`. On MacOS/Linux, run `$ conda source activate reactor_status_board_test`. If you're using Anaconda Prompt, you don't need `conda` at the start
 
 ## Running the Status Board
-The reactor_status_board_test environment contains packages necessary to run the program, as well packages necessary to run spyder IDE. The environment must be active for the program to run. You can set up [autoenv](https://github.com/inishchith/autoenv) for this or run `$ activate reactor_status_board_test` each time you re-open a terminal. While this environment is activated, you can run `__main__.py` to run the program (double clicking, through terminal, and through IDEs are all fine). Alternatively, you can also run
+The reactor_status_board_test environment contains packages necessary to run the program, as well packages necessary to run autopep8 and spyder IDE. The environment must be active for the program to run. You can set up [autoenv](https://github.com/inishchith/autoenv) for this or run `$ conda activate reactor_status_board_test` each time you re-open a terminal. While this environment is activated, you can run the __main__.py file to run the status board (double clicking, terminal command, or through IDEs are all fine). Alternatively, you can also run
 
 `$ python /path/foldername`
 
-where `foldername` is this repo's directory from anywhere directory in a terminal (this repo should be treatable as a package). Many other IDEs also support conda but were not included in the environment.
+where `foldername` is this repo's directory (this repo should be treatable as a package). Many other IDEs also support conda but were not included in the environment.
