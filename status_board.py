@@ -17,6 +17,8 @@ from core_page import CorePage
 from test_page import TestPage
 
 # %% Main Tkinter class
+
+
 class StatusBoard(tk.Tk):
     """
     Instances of this class are fully functional TKinter Status Board windows
@@ -40,10 +42,10 @@ class StatusBoard(tk.Tk):
         Overrides tkinter.Tk.__init__() to build a tkinter screen with the
         desired attributes of the Status Board window and toolbar. 
         """
-        
+
         tk.Tk.__init__(self, *args, **kwargs)
 
-        ## Define attributes
+        # Define attributes
         # width, height, and cell size to be calculated with self.__determine_window_size()
         self.width = 0
         self.height = 0
@@ -58,8 +60,7 @@ class StatusBoard(tk.Tk):
         self._NUM_LENGTH_BLOCKS = 26
         self._NUM_HEIGHT_BLOCKS = 19
 
-
-        ## Set up initial window and window properties
+        # Set up initial window and window properties
         # Determine desired width, height, and cell size of window
         if not self.__determine_window_size():
             self.popup_message("Your screen is not large enough to display this!")
@@ -84,12 +85,14 @@ class StatusBoard(tk.Tk):
         # tk.Tk.iconbitmap(self, default="DEFAULT.ico")
         self.title("MUTR Status Board")
 
-        ## Set up menubar
+        # Set up menubar
         menubar = tk.Menu(self)
         # File submenu
         filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label="Save Configuration", command=lambda: self.popup_message("Not yet supported"))
-        filemenu.add_command(label="Load Configuration", command=lambda: self.popup_message("Not yet supported"))
+        filemenu.add_command(label="Save Configuration",
+                             command=lambda: self.popup_message("Not yet supported"))
+        filemenu.add_command(label="Load Configuration",
+                             command=lambda: self.popup_message("Not yet supported"))
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=self.destroy)
         # Add elements to bar
@@ -99,10 +102,8 @@ class StatusBoard(tk.Tk):
 
         self.config(menu=menubar)
 
-
-        ## Start up the program on the core page
+        # Start up the program on the core page
         self.show_frame("CorePage")
-
 
     # %% show_frame method
     def show_frame(self, page_name):
@@ -112,13 +113,13 @@ class StatusBoard(tk.Tk):
         Parameters:
             page_name (String): The name associated with a page, also the name 
                 of the class that page belongs to (e.g. "CorePage")
-            
+
         Returns:
             None
         """
         frame = self.frames[page_name]
         frame.tkraise()
-    
+
     # %% popup_message method
     def popup_message(self, message):
         """
@@ -126,7 +127,7 @@ class StatusBoard(tk.Tk):
 
         Parameters:
             message (String): The message to be displayed in the pop-up window
-            
+
         Returns:
             None
         """
@@ -135,7 +136,7 @@ class StatusBoard(tk.Tk):
 
         label = tk.Label(popup, text=message)
         okaybutton = tk.Button(popup, text="Okay", font=self.SMALL_FONT,
-                               command=lambda:popup.destroy())
+                               command=lambda: popup.destroy())
 
         label.pack()
         okaybutton.pack()
@@ -160,7 +161,7 @@ class StatusBoard(tk.Tk):
         # -100 is to account for the typical size of taskbars and a little extra room
         screen_height = self.winfo_screenheight() - 100
         screen_width = self.winfo_screenwidth()
-        
+
         if (screen_height > 0) and (screen_width > 0):
 
             if (float(screen_height) / screen_width) > (float(self._NUM_HEIGHT_BLOCKS) / self._NUM_LENGTH_BLOCKS):
@@ -168,12 +169,12 @@ class StatusBoard(tk.Tk):
                 self.cell_size = screen_width // self._NUM_LENGTH_BLOCKS
                 self.width = self.cell_size * self._NUM_LENGTH_BLOCKS
                 self.height = self.width * self._NUM_HEIGHT_BLOCKS // self._NUM_LENGTH_BLOCKS
-            else: 
+            else:
                 # Highest px # of an exact multiple of the # heightwise blocks we want
                 self.cell_size = screen_height // self._NUM_HEIGHT_BLOCKS
                 self.height = self.cell_size * self._NUM_HEIGHT_BLOCKS
                 self.width = self.height * self._NUM_LENGTH_BLOCKS // self._NUM_HEIGHT_BLOCKS
-            
+
             #print(str(self.width) + ", " + str(self.height) + ", " + str(self.cell_size))
             return True
 

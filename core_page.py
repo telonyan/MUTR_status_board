@@ -12,6 +12,8 @@ import csv
 import re
 
 # %% Start page class
+
+
 class CorePage(tk.Frame):
     """
     This class, a subclass of tkinter.Frame, creates a tkinder window showing
