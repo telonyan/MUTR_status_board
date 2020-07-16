@@ -40,7 +40,7 @@ class CorePage(tk.Frame):
             {"Base", "Sample Chamber", "Fuel Storage", "Fuel Bundle", "Sample"})
         self.ELEMENT_COLORS = {"Base": "light gray", "Sample Chamber": "bisque",
                                "Fuel Storage": "bisque", "Fuel Bundle": "azure",
-                               "Fuel Element": "aquamarine", "Sample": "light goldenrod",
+                               "Fuel Rod": "aquamarine", "Control Rod": "pink", "Sample": "light goldenrod",
                                "Green Button": "green yellow", "Red Button": "salmon",
                                "Background": "snow"}
 
@@ -116,9 +116,38 @@ class CorePage(tk.Frame):
                 center_px = ((topleft_px[0]+bottomright_px[0])/2, 
                              (topleft_px[1]+bottomright_px[1])/2)
 
-                if (element_type == "Fuel Bundle"):
-                    # TODO: IMPLEMENT
-                    pass
+                if (element_type == "Fuel Bundle") and contains:
+                    # TODO: Loop somehow?
+                    rods = contains.split(",")
+                    print(rods)
+                    # Top left rod
+                    self.core_canvas.create_oval(topleft_px[0],topleft_px[1],
+                                                 center_px[0], center_px[1],
+                                                 fill=self.ELEMENT_COLORS["Fuel Rod" if rods[0].isnumeric() else "Control Rod"])
+                    self.core_canvas.create_text((topleft_px[0]+center_px[0])/2,
+                                                 (topleft_px[1]+center_px[1])/2,
+                                                 text=rods[0], font=self.controller.SMALL_FONT)
+                    # Top right rod
+                    self.core_canvas.create_oval(center_px[0],topleft_px[1],
+                                                 bottomright_px[0], center_px[1],
+                                                 fill=self.ELEMENT_COLORS["Fuel Rod" if rods[1].isnumeric() else "Control Rod"])
+                    self.core_canvas.create_text((center_px[0]+bottomright_px[0])/2,
+                                                 (topleft_px[1]+center_px[1])/2,
+                                                 text=rods[1], font=self.controller.SMALL_FONT)
+                    # Bottom left rod
+                    self.core_canvas.create_oval(topleft_px[0],center_px[1],
+                                                 center_px[0], bottomright_px[1],
+                                                 fill=self.ELEMENT_COLORS["Fuel Rod" if rods[2].isnumeric() else "Control Rod"])
+                    self.core_canvas.create_text((topleft_px[0]+center_px[0])/2,
+                                                 (center_px[1]+bottomright_px[1])/2,
+                                                 text=rods[2], font=self.controller.SMALL_FONT)
+                    # Bottom right rod
+                    self.core_canvas.create_oval(center_px[0],center_px[1],
+                                                 bottomright_px[0], bottomright_px[1],
+                                                 fill=self.ELEMENT_COLORS["Fuel Rod" if rods[3].isnumeric() else "Control Rod"])
+                    self.core_canvas.create_text((center_px[0]+bottomright_px[0])/2,
+                                                 (center_px[1]+bottomright_px[1])/2,
+                                                 text=rods[3], font=self.controller.SMALL_FONT)
                 else:
                     self.core_canvas.create_text(center_px[0], center_px[1],
                                                  text=name, font=self.controller.MEDIUM_FONT)
