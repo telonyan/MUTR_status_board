@@ -54,7 +54,7 @@ class StatusBoard(tk.Tk):
         self.NUM_LENGTH_BLOCKS = 30
         self.NUM_HEIGHT_BLOCKS = 19
         self.NUM_CORE_LENGTH_BLOCKS = 26
-        self.NUM_CONTROL_LENGTH_BLOCKS = 4
+        self.NUM_CONTROLS_LENGTH_BLOCKS = 4
         # The fonts we want to use
         self.LARGE_FONT = ("Helvetica", 12, "bold")
         self.MEDIUM_FONT = ("Helvetica", 10, "bold")

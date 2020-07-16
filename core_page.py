@@ -35,6 +35,7 @@ class CorePage(tk.Frame):
 
         # Variables in this reactor core page instance
         # Constant variables
+        # FIXME: Add stuff here!
         self.ELEMENT_TYPES = frozenset(
             {"Base", "Sample Chamber", "Fuel Storage", "Fuel Bundle", "Sample"})
         self.ELEMENT_COLORS = {"Base": "light gray", "Sample Chamber": "bisque",
@@ -64,19 +65,23 @@ class CorePage(tk.Frame):
         self.core_canvas = tk.Canvas(self, height=self.controller.height,
                                     width=self.controller.width*self.controller.NUM_CORE_LENGTH_BLOCKS/self.controller.NUM_LENGTH_BLOCKS, 
                                     bg=self.ELEMENT_COLORS["Background"])
-        self.control_canvas = tk.Canvas(self, height=self.controller.height,
-                                    width=self.controller.width*self.controller.NUM_CONTROL_LENGTH_BLOCKS/self.controller.NUM_LENGTH_BLOCKS,
+        self.controls_canvas = tk.Canvas(self, height=self.controller.height,
+                                    width=self.controller.width*self.controller.NUM_CONTROLS_LENGTH_BLOCKS/self.controller.NUM_LENGTH_BLOCKS,
                                     bg=self.ELEMENT_COLORS["Background"])
 
         self.core_canvas.grid(row=0, column=0)
-        self.control_canvas.grid(row=0, column=1)
+        self.controls_canvas.grid(row=0, column=1)
 
         # Load core if config exists
-        if not self.load_configuration():
+        if not self.load_core_configuration():
             controller.destroy()
             controller.popup_message("configuration.csv file not found!")
+        elif not self.load_controls_configuration():
+            # TODO: IMPLEMENT
+            pass
 
     def draw_page(self):
+        # TODO: IMPLEMENT
         pass
 
     def draw_element(self, element_type, name, topleft_coordinate, bottomright_coordinate, contains=None):
@@ -99,6 +104,7 @@ class CorePage(tk.Frame):
                 topleft_coordinate, bottomright_coordinate)
 
             if (element_type == "Sample"):
+                # TODO: IMPLEMENT
                 pass
             else:
                 # Draw rectangles
@@ -109,16 +115,18 @@ class CorePage(tk.Frame):
                 center_px = ((topleft_px[0]+bottomright_px[0])/2,(topleft_px[1]+bottomright_px[1])/2)
 
                 if (element_type == "Fuel Bundle"):
+                    # TODO: IMPLEMENT
                     pass
                 else:
                     self.core_canvas.create_text(center_px[0], center_px[1],
-                                                text=name, font=self.controller.MEDIUM_FONT)                
+                                                text=name, font=self.controller.MEDIUM_FONT)
+                # TODO: Account for buttons
 
             return True
 
         return False
 
-    def load_configuration(self, filename="configuration.csv"):
+    def load_core_configuration(self, filename="configuration.csv"):
         """
         Parses a .csv file of a reactor core's configuration and
         loads the element data into self.
@@ -172,6 +180,10 @@ class CorePage(tk.Frame):
         except ValueError as e:
             print(e)
             return False
+    
+    def load_controls_configuration(self):
+        # TODO: IMPLEMENT
+        pass
 
     def get_pxlocation(self, topleft_coordinate, bottomright_coordinate):
         """
