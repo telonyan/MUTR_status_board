@@ -63,11 +63,13 @@ class CorePage(tk.Frame):
         # self.grid_columnconfigure(0, weight=1, minsize=controller.cell_size)
 
         self.core_canvas = tk.Canvas(self, height=self.controller.height,
-                                    width=self.controller.width*self.controller.NUM_CORE_LENGTH_BLOCKS/self.controller.NUM_LENGTH_BLOCKS, 
-                                    bg=self.ELEMENT_COLORS["Background"])
+                                     width=self.controller.width*self.controller.NUM_CORE_LENGTH_BLOCKS /
+                                     self.controller.NUM_LENGTH_BLOCKS,
+                                     bg=self.ELEMENT_COLORS["Background"])
         self.controls_canvas = tk.Canvas(self, height=self.controller.height,
-                                    width=self.controller.width*self.controller.NUM_CONTROLS_LENGTH_BLOCKS/self.controller.NUM_LENGTH_BLOCKS,
-                                    bg=self.ELEMENT_COLORS["Background"])
+                                         width=self.controller.width*self.controller.NUM_CONTROLS_LENGTH_BLOCKS /
+                                         self.controller.NUM_LENGTH_BLOCKS,
+                                         bg=self.ELEMENT_COLORS["Background"])
 
         self.core_canvas.grid(row=0, column=0)
         self.controls_canvas.grid(row=0, column=1)
@@ -100,26 +102,26 @@ class CorePage(tk.Frame):
         """
         if (element_type in self.ELEMENT_TYPES) and name and topleft_coordinate and bottomright_coordinate:
 
-            (topleft_px, bottomright_px) = self.get_pxlocation(
-                topleft_coordinate, bottomright_coordinate)
+            (topleft_px, bottomright_px) = self.get_pxlocation(topleft_coordinate, bottomright_coordinate)
 
             if (element_type == "Sample"):
                 # TODO: IMPLEMENT
                 pass
             else:
                 # Draw rectangles
-                self.core_canvas.create_rectangle(topleft_px[0], topleft_px[1], 
-                                                bottomright_px[0], bottomright_px[1], 
-                                                fill=self.ELEMENT_COLORS[element_type])
+                self.core_canvas.create_rectangle(topleft_px[0], topleft_px[1],
+                                                  bottomright_px[0], bottomright_px[1],
+                                                  fill=self.ELEMENT_COLORS[element_type])
                 # Calculate center pixel used for placing things
-                center_px = ((topleft_px[0]+bottomright_px[0])/2,(topleft_px[1]+bottomright_px[1])/2)
+                center_px = ((topleft_px[0]+bottomright_px[0])/2, 
+                             (topleft_px[1]+bottomright_px[1])/2)
 
                 if (element_type == "Fuel Bundle"):
                     # TODO: IMPLEMENT
                     pass
                 else:
                     self.core_canvas.create_text(center_px[0], center_px[1],
-                                                text=name, font=self.controller.MEDIUM_FONT)
+                                                 text=name, font=self.controller.MEDIUM_FONT)
                 # TODO: Account for buttons
 
             return True
@@ -180,7 +182,7 @@ class CorePage(tk.Frame):
         except ValueError as e:
             print(e)
             return False
-    
+
     def load_controls_configuration(self):
         # TODO: IMPLEMENT
         pass
