@@ -1,16 +1,16 @@
 ﻿Type of Element,Name,Top Left Coordinate,Bottom Right Coordinate,Contains
-Base,Thermal Column,2G,3R,
-Sample Chamber,CIC 1,2I,3J,
-Sample Chamber,CIC 2,2O,3P,
-Sample Chamber,FC,4E,5F,
-Sample Chamber,IC,4U,5V,
+Imaging Chamber,Thermal Column,1G,3R,
+Instrument,CIC 1,2I,3J,
+Instrument,CIC 2,2O,3P,
+Instrument,FC,4E,5F,
+Instrument,IC,4U,5V,
 Sample Chamber,Beam Port 1,7A,10C,
 Sample Chamber,Beam Port 2,7X,10Z,
 Sample Chamber,Rabbit,10O,11P,
+Sample Chamber,Through Tube,15A,16Z,
 Base,Reflector 1,6S,7T,
 Base,Reflector 2,8S,9T,
 Base,PuBe Source,12K,13L,
-Base,Through Tube,15A,16Z,
 Fuel Bundle,F8,4G,5H,"7390,7391,7389,7392"
 Fuel Bundle,F7,4I,5J,"7378,7379,7377,7380"
 Fuel Bundle,F6,4K,5L,"7354,7355,7353,7356"

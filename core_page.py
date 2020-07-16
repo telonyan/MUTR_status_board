@@ -37,12 +37,14 @@ class CorePage(tk.Frame):
         # Constant variables
         # FIXME: Add stuff here!
         self.ELEMENT_TYPES = frozenset(
-            {"Base", "Sample Chamber", "Fuel Storage", "Fuel Bundle", "Sample"})
-        self.ELEMENT_COLORS = {"Base": "light gray", "Sample Chamber": "bisque",
-                               "Fuel Storage": "bisque", "Fuel Bundle": "azure",
-                               "Fuel Rod": "aquamarine", "Control Rod": "pink", "Sample": "light goldenrod",
+            {"Base", "Instrument", "Imaging Chamber", "Sample Chamber", 
+             "Fuel Storage", "Fuel Bundle", "Sample"})
+        self.ELEMENT_COLORS = {"Base": "light gray", "Instrument": "white smoke", 
+                               "Imaging Chamber": "spring green", "Sample Chamber": "bisque",
+                               "Fuel Storage": "bisque", "Fuel Bundle": "powder blue",
+                               "Fuel Rod": "sky blue", "Control Rod": "pink", "Sample": "light goldenrod",
                                "Green Button": "green yellow", "Red Button": "salmon",
-                               "Background": "snow"}
+                               "Background": "white"}
 
         # Dictionaries that basically hold all the configuration information
         # element_name: grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
@@ -117,9 +119,8 @@ class CorePage(tk.Frame):
                              (topleft_px[1]+bottomright_px[1])/2)
 
                 if (element_type == "Fuel Bundle") and contains:
-                    # TODO: Loop somehow?
+                    # TODO: Loop somehow
                     rods = contains.split(",")
-                    print(rods)
                     # Top left rod
                     self.core_canvas.create_oval(topleft_px[0],topleft_px[1],
                                                  center_px[0], center_px[1],
@@ -157,7 +158,7 @@ class CorePage(tk.Frame):
 
         return False
 
-    def load_core_configuration(self, filename="configuration.csv"):
+    def load_core_configuration(self, filename="core_configuration.csv"):
         """
         Parses a .csv file of a reactor core's configuration and
         loads the element data into self.
@@ -212,7 +213,7 @@ class CorePage(tk.Frame):
             print(e)
             return False
 
-    def load_controls_configuration(self):
+    def load_controls_configuration(self, filename="controls_configuration.csv"):
         # TODO: IMPLEMENT
         pass
 
