@@ -37,20 +37,20 @@ class CorePage(tk.Frame):
         # Constant variables
         self.ELEMENT_TYPES = frozenset(
             {"Base", "Sample Chamber", "Fuel Storage", "Fuel Bundle", "Sample"})
-        self.ELEMENT_COLORS = {"Base": "gray", "Sample Chamber": "khaki",
-                               "Fuel Storage": "khaki", "Fuel Bundle": "azure",
+        self.ELEMENT_COLORS = {"Base": "light gray", "Sample Chamber": "bisque",
+                               "Fuel Storage": "bisque", "Fuel Bundle": "azure",
                                "Fuel Element": "aquamarine", "Sample": "light goldenrod",
                                "Green Button": "green yellow", "Red Button": "salmon",
                                "Background": "snow"}
 
         # Dictionaries that basically hold all the configuration information
-        # element_name : grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
+        # element_name: grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
         self.element_coordinates = {}
-        # element_name : element_type
+        # element_name: element_type
         self.element_types = {}
-        # fuel element_name : fuel element_contains
+        # fuel element_name: fuel element_contains
         self.fuel_bundles = {}
-        # sample element_name : sample element_contains
+        # sample element_name: sample element_contains
         self.samples = {}
 
         # Sets also useful for config information
@@ -62,9 +62,11 @@ class CorePage(tk.Frame):
         # self.grid_columnconfigure(0, weight=1, minsize=controller.cell_size)
 
         self.core_canvas = tk.Canvas(self, height=self.controller.height,
-                                     width=self.controller.width*22/26, bg=self.ELEMENT_COLORS["Background"])
+                                    width=self.controller.width*self.controller.NUM_CORE_LENGTH_BLOCKS/self.controller.NUM_LENGTH_BLOCKS, 
+                                    bg=self.ELEMENT_COLORS["Background"])
         self.control_canvas = tk.Canvas(self, height=self.controller.height,
-                                        width=self.controller.width*4/26, bg=self.ELEMENT_COLORS["Background"])
+                                    width=self.controller.width*self.controller.NUM_CONTROL_LENGTH_BLOCKS/self.controller.NUM_LENGTH_BLOCKS,
+                                    bg=self.ELEMENT_COLORS["Background"])
 
         self.core_canvas.grid(row=0, column=0)
         self.control_canvas.grid(row=0, column=1)
@@ -73,16 +75,6 @@ class CorePage(tk.Frame):
         if not self.load_configuration():
             controller.destroy()
             controller.popup_message("configuration.csv file not found!")
-        else:
-            # Add objects in start page window
-            pass
-
-            # title_label = tk.Label(self, text="MUTR Core", font=controller.LARGE_FONT)
-            # title_label.pack(side="top", fill="x", pady=10)
-
-            # button1 = tk.Button(self, text="Go to Test Page", font=controller.SMALL_FONT,
-            #                     command=lambda: controller.show_frame("TestPage"))
-            # button1.pack()
 
     def draw_page(self):
         pass
@@ -106,16 +98,21 @@ class CorePage(tk.Frame):
             (topleft_px, bottomright_px) = self.get_pxlocation(
                 topleft_coordinate, bottomright_coordinate)
 
-            if (element_type == "Base"):
+            if (element_type == "Sample"):
                 pass
-            elif (element_type == "Sample Chamber"):
-                pass
-            elif (element_type == "Fuel Storage"):
-                pass
-            elif (element_type == "Fuel Bundle"):
-                pass
-            elif (element_type == "Sample"):
-                pass
+            else:
+                # Draw rectangles
+                self.core_canvas.create_rectangle(topleft_px[0], topleft_px[1], 
+                                                bottomright_px[0], bottomright_px[1], 
+                                                fill=self.ELEMENT_COLORS[element_type])
+                # Calculate center pixel used for placing things
+                center_px = ((topleft_px[0]+bottomright_px[0])/2,(topleft_px[1]+bottomright_px[1])/2)
+
+                if (element_type == "Fuel Bundle"):
+                    pass
+                else:
+                    self.core_canvas.create_text(center_px[0], center_px[1],
+                                                text=name, font=self.controller.MEDIUM_FONT)                
 
             return True
 

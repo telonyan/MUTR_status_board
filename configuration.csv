@@ -1,50 +1,50 @@
 ﻿Type of Element,Name,Top Left Coordinate,Bottom Right Coordinate,Contains
-Base,Thermal Column,2E,3P,
-Sample Chamber,CIC 1,2G,3H,
-Sample Chamber,CIC 2,2M,3N,
-Sample Chamber,FC,4C,5D,
-Sample Chamber,IC,4S,5T,
-Sample Chamber,Beam Port 1,7A,10B,
-Sample Chamber,Beam Port 2,7U,10V,
-Sample Chamber,Rabbit,10M,11N,
-Base,Reflector 1,6Q,7R,
-Base,Reflector 2,8Q,9R,
-Base,PuBe Source,12I,13J,
-Base,Through Tube,15A,16V,
-Fuel Bundle,F8,4E,5F,"7390, 7391, 7389, 7392"
-Fuel Bundle,F7,4G,5H,"7378, 7379, 7377, 7380"
-Fuel Bundle,F6,4I,5J,"7354, 7355, 7353, 7356"
-Fuel Bundle,F5,4K,5L,"7395, 7393, 7397, 7396"
-Fuel Bundle,F4,4M,5N,"7168, 7169, 7167, 7166"
-Fuel Bundle,F3,4O,5P,"7333, 7335, 7334, 7336"
-Fuel Bundle,E8,6E,7F,"7161, 7026, 7028, 7027"
-Fuel Bundle,E7,6G,7H,"7398, CR 1, 7399, 7400"
-Fuel Bundle,E6,6I,7J,"7368, 7365, 7367, 7366"
-Fuel Bundle,E5,6K,7L,"7374, 7375, 7373, 7376"
-Fuel Bundle,E4,6M,7N,"CR 2, 7406, 7404, 7405"
-Fuel Bundle,E3,6O,7P,"7342, 7343, 7341, 7344"
-Fuel Bundle,D8,8E,9F,"7408, 7409, 7407, IR"
-Fuel Bundle,D7,8G,9H,"7345, 7346, 7348, 7347"
-Fuel Bundle,D6,8I,9J,"7382, 7383, 7381, 7384"
-Fuel Bundle,D5,8K,9L,"7371, 7372, 7370, 7369"
-Fuel Bundle,D4,8M,9N,"7290, 7330, 7332, 7331"
-Fuel Bundle,D3,8O,9P,"7164, 7165, 7163, 7162"
-Fuel Bundle,C8,10E,11F,"7360, 7357, 7359, 7358"
-Fuel Bundle,C7,10G,11H,"7352, 7349, 7351, 7350"
-Fuel Bundle,C6,10I,11J,"7401, RR, 7403, 7402"
-Fuel Bundle,C5,10K,11L,"7388, 7385, 7387, 7386"
-Fuel Bundle,C3,10O,11P,"7362, 7363, 7361, 7364"
-Fuel Bundle,B4,12M,13N,"7338, 7337, 7339, 7340"
-Fuel Storage,Storage 1,18A,18A,F8
-Fuel Storage,Storage 2,18B,18B,
-Fuel Storage,Storage 3,18C,18C,
-Fuel Storage,Storage 4,18D,18D,
-Fuel Storage,Storage 5,18E,18E,
-Fuel Storage,Storage 6,18F,18F,
-Fuel Storage,Storage 7,18G,18G,
-Fuel Storage,Storage 8,18H,18H,
-Fuel Storage,Storage 9,18I,18I,
-Fuel Storage,Storage 10,18J,18J,
-Fuel Storage,Storage 11,18K,18K,
-Fuel Storage,Storage 12,18L,18L,
-Fuel Storage,Storage 13,18M,18M,
+Base,Thermal Column,2G,3R,
+Sample Chamber,CIC 1,2I,3J,
+Sample Chamber,CIC 2,2O,3P,
+Sample Chamber,FC,4E,5F,
+Sample Chamber,IC,4U,5V,
+Sample Chamber,Beam Port 1,7A,10C,
+Sample Chamber,Beam Port 2,7X,10Z,
+Sample Chamber,Rabbit,10O,11P,
+Base,Reflector 1,6S,7T,
+Base,Reflector 2,8S,9T,
+Base,PuBe Source,12K,13L,
+Base,Through Tube,15A,16Z,
+Fuel Bundle,F8,4G,5H,"7390, 7391, 7389, 7392"
+Fuel Bundle,F7,4I,5J,"7378, 7379, 7377, 7380"
+Fuel Bundle,F6,4K,5L,"7354, 7355, 7353, 7356"
+Fuel Bundle,F5,4M,5N,"7395, 7393, 7397, 7396"
+Fuel Bundle,F4,4O,5P,"7168, 7169, 7167, 7166"
+Fuel Bundle,F3,4Q,5R,"7333, 7335, 7334, 7336"
+Fuel Bundle,E8,6G,7H,"7161, 7026, 7028, 7027"
+Fuel Bundle,E7,6I,7J,"7398, CR 1, 7399, 7400"
+Fuel Bundle,E6,6K,7L,"7368, 7365, 7367, 7366"
+Fuel Bundle,E5,6M,7N,"7374, 7375, 7373, 7376"
+Fuel Bundle,E4,6O,7P,"CR 2, 7406, 7404, 7405"
+Fuel Bundle,E3,6Q,7R,"7342, 7343, 7341, 7344"
+Fuel Bundle,D8,8G,9H,"7408, 7409, 7407, IR"
+Fuel Bundle,D7,8I,9J,"7345, 7346, 7348, 7347"
+Fuel Bundle,D6,8K,9L,"7382, 7383, 7381, 7384"
+Fuel Bundle,D5,8M,9N,"7371, 7372, 7370, 7369"
+Fuel Bundle,D4,8O,9P,"7290, 7330, 7332, 7331"
+Fuel Bundle,D3,8Q,9R,"7164, 7165, 7163, 7162"
+Fuel Bundle,C8,10G,11H,"7360, 7357, 7359, 7358"
+Fuel Bundle,C7,10I,11J,"7352, 7349, 7351, 7350"
+Fuel Bundle,C6,10K,11L,"7401, RR, 7403, 7402"
+Fuel Bundle,C5,10M,11N,"7388, 7385, 7387, 7386"
+Fuel Bundle,C3,10Q,11R,"7362, 7363, 7361, 7364"
+Fuel Bundle,B4,12O,13P,"7338, 7337, 7339, 7340"
+Fuel Storage,Storage 1,18A,19B,F8
+Fuel Storage,Storage 2,18C,19D,
+Fuel Storage,Storage 3,18E,19F,
+Fuel Storage,Storage 4,18G,19H,
+Fuel Storage,Storage 5,18I,19J,
+Fuel Storage,Storage 6,18K,19L,
+Fuel Storage,Storage 7,18M,19N,
+Fuel Storage,Storage 8,18O,19P,
+Fuel Storage,Storage 9,18Q,19R,
+Fuel Storage,Storage 10,18S,19T,
+Fuel Storage,Storage 11,18U,19V,
+Fuel Storage,Storage 12,18W,19X,
+Fuel Storage,Storage 13,18Y,19Z,

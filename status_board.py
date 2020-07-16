@@ -50,15 +50,17 @@ class StatusBoard(tk.Tk):
         self.width = 0
         self.height = 0
         self.cell_size = 0
+        # Geometry constants
+        self.NUM_LENGTH_BLOCKS = 30
+        self.NUM_HEIGHT_BLOCKS = 19
+        self.NUM_CORE_LENGTH_BLOCKS = 26
+        self.NUM_CONTROL_LENGTH_BLOCKS = 4
         # The fonts we want to use
         self.LARGE_FONT = ("Helvetica", 12, "bold")
-        self.MEDIUM_FONT = ("Helvetica", 10)
+        self.MEDIUM_FONT = ("Helvetica", 10, "bold")
         self.SMALL_FONT = ("Helvetica", 8)
         # Dictionary of string frame names to Frame instances
         self.frames = {}
-        # "Private" variables
-        self._NUM_LENGTH_BLOCKS = 26
-        self._NUM_HEIGHT_BLOCKS = 19
 
         # Set up initial window and window properties
         # Determine desired width, height, and cell size of window
@@ -158,22 +160,22 @@ class StatusBoard(tk.Tk):
             True if succeeded, False if the screen fails to be suitable for display.
             If failed, no assignment takes place.
         """
-        # -100 is to account for the typical size of taskbars and a little extra room
+        # -120 is arbitrarily set to account for the typical size of taskbars and a little extra space
         screen_height = self.winfo_screenheight() - 100
         screen_width = self.winfo_screenwidth()
 
         if (screen_height > 0) and (screen_width > 0):
 
-            if (float(screen_height) / screen_width) > (float(self._NUM_HEIGHT_BLOCKS) / self._NUM_LENGTH_BLOCKS):
+            if (float(screen_height) / screen_width) > (float(self.NUM_HEIGHT_BLOCKS) / self.NUM_LENGTH_BLOCKS):
                 # Highest px # of an exact multiple of the # lengthwise blocks we want
-                self.cell_size = screen_width // self._NUM_LENGTH_BLOCKS
-                self.width = self.cell_size * self._NUM_LENGTH_BLOCKS
-                self.height = self.width * self._NUM_HEIGHT_BLOCKS // self._NUM_LENGTH_BLOCKS
+                self.cell_size = screen_width // self.NUM_LENGTH_BLOCKS
+                self.width = self.cell_size * self.NUM_LENGTH_BLOCKS
+                self.height = self.width * self.NUM_HEIGHT_BLOCKS // self.NUM_LENGTH_BLOCKS
             else:
                 # Highest px # of an exact multiple of the # heightwise blocks we want
-                self.cell_size = screen_height // self._NUM_HEIGHT_BLOCKS
-                self.height = self.cell_size * self._NUM_HEIGHT_BLOCKS
-                self.width = self.height * self._NUM_LENGTH_BLOCKS // self._NUM_HEIGHT_BLOCKS
+                self.cell_size = screen_height // self.NUM_HEIGHT_BLOCKS
+                self.height = self.cell_size * self.NUM_HEIGHT_BLOCKS
+                self.width = self.height * self.NUM_LENGTH_BLOCKS // self.NUM_HEIGHT_BLOCKS
 
             #print(str(self.width) + ", " + str(self.height) + ", " + str(self.cell_size))
             return True
