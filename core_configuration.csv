@@ -1,4 +1,4 @@
-﻿Type of Element,Name,Top Left Coordinate,Bottom Right Coordinate,Contains
+﻿Element Type,Element Name,Top Left Coordinate,Bottom Right Coordinate,Contains
 Imaging Chamber,Thermal Column,1G,3R,
 Instrument,CIC 1,2I,3J,
 Instrument,CIC 2,2O,3P,

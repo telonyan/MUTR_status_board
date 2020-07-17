@@ -35,22 +35,24 @@ class CorePage(tk.Frame):
 
         # Variables in this reactor core page instance
         # Constant variables
-        # FIXME: Add stuff here!
+        # TODO: Make sure this is complete
         self.ELEMENT_TYPES = frozenset(
             {"Base", "Instrument", "Imaging Chamber", "Sample Chamber", 
-             "Fuel Storage", "Fuel Bundle", "Sample"})
+             "Fuel Storage", "Fuel Bundle", "Sample", "Add Button", "Remove Button", "Other Button"})
         self.ELEMENT_COLORS = {"Base": "light gray", "Instrument": "white smoke", 
                                "Imaging Chamber": "spring green", "Sample Chamber": "bisque",
-                               "Fuel Storage": "bisque", "Fuel Bundle": "powder blue",
+                               "Fuel Storage": "turquoise", "Fuel Bundle": "powder blue",
                                "Fuel Rod": "sky blue", "Control Rod": "pink", "Sample": "light goldenrod",
-                               "Green Button": "green yellow", "Red Button": "salmon",
-                               "Background": "white"}
+                               "Add Button": "yellow green", "Remove Button": "salmon",
+                               "Other Button": "lemon chiffon", "Background": "white"}
 
         # Dictionaries that basically hold all the configuration information
         # element_name: grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
-        self.element_coordinates = {}
+        self.core_element_coordinates = {}
+        self.controls_element_coordinates = {}
         # element_name: element_type
-        self.element_types = {}
+        self.core_element_types = {}
+        self.controls_element_types = {}
         # fuel element_name: fuel element_contains
         self.fuel_bundles = {}
         # sample element_name: sample element_contains
@@ -78,11 +80,13 @@ class CorePage(tk.Frame):
 
         # Load core if config exists
         if not self.load_core_configuration():
+            # TODO: request for new .csv file
             controller.destroy()
-            controller.popup_message("configuration.csv file not found!")
+            controller.popup_message("Core configuration csv file not found!")
         elif not self.load_controls_configuration():
-            # TODO: IMPLEMENT
-            pass
+            # FIXME: Make sure this is fine
+            controller.destroy()
+            controller.popup_message("Controls configuration csv file not found!")
 
     def draw_page(self):
         # TODO: IMPLEMENT
@@ -106,11 +110,23 @@ class CorePage(tk.Frame):
 
             (topleft_px, bottomright_px) = self.get_pxlocation(topleft_coordinate, bottomright_coordinate)
 
-            if (element_type == "Sample"):
+            if ("Button" in element_type):
+                # Draw rectangle around element
+                self.controls_canvas.create_rectangle(topleft_px[0], topleft_px[1],
+                                                      bottomright_px[0], bottomright_px[1],
+                                                      fill=self.ELEMENT_COLORS[element_type])
+                # Calculate center pixel used for placing things
+                center_px = ((topleft_px[0]+bottomright_px[0])/2, 
+                             (topleft_px[1]+bottomright_px[1])/2)
+                # Draw text
+                self.controls_canvas.create_text(center_px[0], center_px[1],
+                                                 text=name, font=self.controller.MEDIUM_FONT)
+
+            elif (element_type == "Sample"):
                 # TODO: IMPLEMENT
                 pass
             else:
-                # Draw rectangles
+                # Draw rectangle around element
                 self.core_canvas.create_rectangle(topleft_px[0], topleft_px[1],
                                                   bottomright_px[0], bottomright_px[1],
                                                   fill=self.ELEMENT_COLORS[element_type])
@@ -150,9 +166,9 @@ class CorePage(tk.Frame):
                                                  (center_px[1]+bottomright_px[1])/2,
                                                  text=rods[3], font=self.controller.SMALL_FONT)
                 else:
+                    # Draw text label
                     self.core_canvas.create_text(center_px[0], center_px[1],
                                                  text=name, font=self.controller.MEDIUM_FONT)
-                # TODO: Account for buttons
 
             return True
 
@@ -177,16 +193,16 @@ class CorePage(tk.Frame):
                 # Per row of csv, add stuff
                 for row in core_reader:
                     # Set read values to temporary variables
-                    temp_type = row["Type of Element"]
-                    temp_name = row["Name"]
+                    temp_type = row["Element Type"]
+                    temp_name = row["Element Name"]
                     temp_topleft = row["Top Left Coordinate"]
                     temp_bottomright = row["Bottom Right Coordinate"]
                     temp_contains = row["Contains"]
 
                     if (temp_type in self.ELEMENT_TYPES):
                         # Update CorePage variables (dictionaries)
-                        self.element_types[temp_name] = temp_type
-                        self.element_coordinates[temp_name] = (temp_topleft, temp_bottomright)
+                        self.core_element_types[temp_name] = temp_type
+                        self.core_element_coordinates[temp_name] = (temp_topleft, temp_bottomright)
 
                         if (temp_type == "Fuel Bundle"):
                             self.fuel_names.add(temp_name)
@@ -214,8 +230,41 @@ class CorePage(tk.Frame):
             return False
 
     def load_controls_configuration(self, filename="controls_configuration.csv"):
-        # TODO: IMPLEMENT
-        pass
+        # TODO: Documentation
+        try:
+            with open(filename, encoding='utf-8-sig') as controls_configuration_data:
+                controls_reader = csv.DictReader(controls_configuration_data)
+
+                # Per row of csv, add stuff
+                for row in controls_reader:
+                    # Set read values to temporary variables
+                    temp_name = row["Button Name"]
+                    temp_topleft = row["Top Left Coordinate"]
+                    temp_bottomright = row["Bottom Right Coordinate"]
+                    temp_type = row["Button Type"]
+
+                    if (temp_type in self.ELEMENT_TYPES):
+                        # Update CorePage variables (dictionaries)
+                        self.controls_element_types[temp_name] = temp_type
+                        self.controls_element_coordinates[temp_name] = (temp_topleft, temp_bottomright)
+
+                        # Draw element
+                        if not self.draw_element(temp_type, temp_name, temp_topleft, temp_bottomright):
+                            print("Element could not be drawn")
+                            raise ValueError
+
+                    else:
+                        print("Invalid element type")
+                        raise ValueError
+
+            return True
+
+        except csv.Error as e:
+            print(e)
+            return False
+        except ValueError as e:
+            print(e)
+            return False
 
     def get_pxlocation(self, topleft_coordinate, bottomright_coordinate):
         """
