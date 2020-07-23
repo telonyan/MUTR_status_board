@@ -1,7 +1,7 @@
 ﻿Button Name,Top Left Coordinate,Bottom Right Coordinate,Button Type
-Add Fuel Bundle,2B,3C,Add Button
-Remove Fuel Bundle,5B,6C,Remove Button
-Move Fuel,8B,9C,Other Button
+Move Fuel,2B,3C,Other Button
+Add Fuel Bundle,5B,6C,Add Button
+Remove Fuel Bundle,8B,9C,Remove Button
 Add Sample,11B,12C,Add Button
 Remove Sample,14B,15C,Remove Button
 Run Arduino Experiment,17B,18C,Other Button
