@@ -47,16 +47,18 @@ class CorePage(tk.Frame):
                                "Other Button": "lemon chiffon", "Background": "white"}
 
         # Dictionaries that basically hold all the configuration information
-        # element_name: grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
+        # Element_name: grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
         self.core_element_coordinates = {}
         self.controls_element_coordinates = {}
-        # element_name: element_type
+        # Element_name: element_type
         self.core_element_types = {}
         self.controls_element_types = {}
-        # fuel element_name: fuel element_contains
+        # Fuel element_name: fuel element_contains
         self.fuel_bundles = {}
-        # sample element_name: sample element_contains
+        # Sample element_name: sample element_contains
         self.samples = {}
+        # Buttons
+        self.buttons = []
 
         # Sets also useful for config information
         self.fuel_names = set()
@@ -89,10 +91,6 @@ class CorePage(tk.Frame):
             controller.popup_message(
                 "Controls configuration csv file not found!")
 
-    def draw_page(self):
-        # TODO: IMPLEMENT
-        pass
-
     def draw_element(self, element_type, name, topleft_coordinate, bottomright_coordinate, contains=None):
         """
         Draws an element specified by method parameters
@@ -113,7 +111,8 @@ class CorePage(tk.Frame):
 
             # If it's a button element, draw in controls_canvas
             if ("Button" in element_type):
-                # Draw rectangle around element
+                # TODO: change this to a button
+                # Draw Button
                 self.controls_canvas.create_rectangle(topleft_px[0], topleft_px[1],
                                                       bottomright_px[0], bottomright_px[1],
                                                       fill=self.ELEMENT_COLORS[element_type])
