@@ -1,0 +1,56 @@
+﻿Element Name,Element Type,Canvas,Top Left Coordinate,Bottom Right Coordinate,Contains
+Thermal Column,Imaging Chamber,Core,1G,3R,
+CIC 1,Instrument,Core,2I,3J,
+CIC 2,Instrument,Core,2O,3P,
+FC,Instrument,Core,4E,5F,
+IC,Instrument,Core,4U,5V,
+Beam Port 1,Sample Chamber,Core,7A,10C,
+Beam Port 2,Sample Chamber,Core,7X,10Z,
+Rabbit,Sample Chamber,Core,10O,11P,
+Through Tube,Sample Chamber,Core,15A,16Z,
+Reflector 1,Base,Core,6S,7T,
+Reflector 2,Base,Core,8S,9T,
+PuBe Source,Base,Core,12K,13L,
+F8,Fuel Bundle,Core,4G,5H,"7390,7391,7389,7390"
+F7,Fuel Bundle,Core,4I,5J,"7378,7379,7377,7380"
+F6,Fuel Bundle,Core,4K,5L,"7354,7355,7353,7350"
+F5,Fuel Bundle,Core,4M,5N,"7395,7393,7397,7390"
+F4,Fuel Bundle,Core,4O,5P,"7168,7169,7167,7160"
+F3,Fuel Bundle,Core,4Q,5R,"7333,7335,7334,7330"
+E8,Fuel Bundle,Core,6G,7H,"7161,7026,7028,7020"
+E7,Fuel Bundle,Core,6I,7J,"7398,CR 1,7399,7400"
+E6,Fuel Bundle,Core,6K,7L,"7368,7365,7367,7360"
+E5,Fuel Bundle,Core,6M,7N,"7374,7375,7373,7370"
+E4,Fuel Bundle,Core,6O,7P,"CR 2,7406,7404,7405"
+E3,Fuel Bundle,Core,6Q,7R,"7342,7343,7341,7340"
+D8,Fuel Bundle,Core,8G,9H,"7408,7409,7407,IR"
+D7,Fuel Bundle,Core,8I,9J,"7345,7346,7348,7340"
+D6,Fuel Bundle,Core,8K,9L,"7382,7383,7381,7380"
+D5,Fuel Bundle,Core,8M,9N,"7371,7372,7370,7360"
+D4,Fuel Bundle,Core,8O,9P,"7290,7330,7332,7330"
+D3,Fuel Bundle,Core,8Q,9R,"7164,7165,7163,7160"
+C8,Fuel Bundle,Core,10G,11H,"7360,7357,7359,7350"
+C7,Fuel Bundle,Core,10I,11J,"7352,7349,7351,7350"
+C6,Fuel Bundle,Core,10K,11L,"7401,RR,7403,7402"
+C5,Fuel Bundle,Core,10M,11N,"7388,7385,7387,7380"
+C3,Fuel Bundle,Core,10Q,11R,"7362,7363,7361,7360"
+B4,Fuel Bundle,Core,12O,13P,"7338,7337,7339,7340"
+Storage 1,Fuel Storage,Core,18A,19B,F8
+Storage 2,Fuel Storage,Core,18C,19D,
+Storage 3,Fuel Storage,Core,18E,19F,
+Storage 4,Fuel Storage,Core,18G,19H,
+Storage 5,Fuel Storage,Core,18I,19J,
+Storage 6,Fuel Storage,Core,18K,19L,
+Storage 7,Fuel Storage,Core,18M,19N,
+Storage 8,Fuel Storage,Core,18O,19P,
+Storage 9,Fuel Storage,Core,18Q,19R,
+Storage 10,Fuel Storage,Core,18S,19T,
+Storage 11,Fuel Storage,Core,18U,19V,
+Storage 12,Fuel Storage,Core,18W,19X,
+Storage 13,Fuel Storage,Core,18Y,19Z,
+Move Fuel,Control Button,Controls,2B,3C,
+Add Fuel Bundle,Control Button,Controls,5B,6C,
+Remove Fuel Bundle,Control Button,Controls,8B,9C,
+Add Sample,Control Button,Controls,11B,12C,
+Remove Sample,Control Button,Controls,14B,15C,
+Run Arduino Experiment,Control Button,Controls,17B,18C,

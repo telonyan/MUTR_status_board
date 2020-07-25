@@ -43,7 +43,7 @@ class StatusBoard(tk.Tk):
         desired attributes of the Status Board window and toolbar. 
         """
 
-        tk.Tk.__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # Define attributes
         # width, height, and cell size to be calculated with self.__determine_window_size()
@@ -161,7 +161,7 @@ class StatusBoard(tk.Tk):
             If failed, no assignment takes place.
         """
         # -120 is arbitrarily set to account for the typical size of taskbars and a little extra space
-        screen_height = self.winfo_screenheight() - 100
+        screen_height = self.winfo_screenheight() - 120
         screen_width = self.winfo_screenwidth()
 
         if (screen_height > 0) and (screen_width > 0):
