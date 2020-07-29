@@ -10,10 +10,9 @@ Created on Wed Jun 24 16:34:55 2020
 import tkinter as tk
 import csv
 import re
+from control_button import ControlButton
 
-# %% Start page class
-
-
+# %% Core page class
 class CorePage(tk.Frame):
     """
     This class, a subclass of tkinter.Frame, creates a tkinder window showing
@@ -34,19 +33,12 @@ class CorePage(tk.Frame):
         self.controller = controller
 
         # Variables in this reactor core page instance
-        # Constant variables
-        # TODO: Make sure this is complete
-        """
-        self.ELEMENT_TYPES = frozenset(
-            {"Base", "Instrument", "Imaging Chamber", "Sample Chamber",
-             "Fuel Storage", "Fuel Bundle", "Sample", "Add Button", "Remove Button", "Other Button"})
-        """
-        self.ELEMENT_COLORS = {"Base": "light gray", "Instrument": "white smoke",
+        # Colors of different kinds of elements TODO: make this editable w toolbar
+        self.element_colors = {"Base": "light gray", "Instrument": "white smoke",
                                "Imaging Chamber": "spring green", "Sample Chamber": "bisque",
                                "Fuel Storage": "turquoise", "Fuel Bundle": "powder blue",
                                "Fuel Rod": "sky blue", "Control Rod": "pink", "Sample": "light goldenrod",
                                "Control Button": "lemon chiffon", "Background": "white"}
-
         # Dictionaries that basically hold all the configuration information
         # Element_name: grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
         self.core_element_coordinates = {}
@@ -61,29 +53,31 @@ class CorePage(tk.Frame):
         # Buttons
         self.buttons = {}
 
-        # Sets also useful for config information
-        self.fuel_names = set()
-        self.sample_names = set()
-
         # Set up page properties
+
         # self.grid_rowconfigure(0, weight=1, minsize=controller.cell_size)
         # self.grid_columnconfigure(0, weight=1, minsize=controller.cell_size)
 
-        self.core_canvas = tk.Canvas(self, height=self.controller.height,
-                                     width=self.controller.width*self.controller.NUM_CORE_LENGTH_BLOCKS /
-                                     self.controller.NUM_LENGTH_BLOCKS,
-                                     bg=self.ELEMENT_COLORS["Background"])
-        self.controls_canvas = tk.Canvas(self, height=self.controller.height,
-                                         width=self.controller.width*self.controller.NUM_CONTROLS_LENGTH_BLOCKS /
-                                         self.controller.NUM_LENGTH_BLOCKS,
-                                         bg=self.ELEMENT_COLORS["Background"])
+        # TODO: something to set up the actual core's cooordinates
+
+        self.core_canvas = tk.Canvas(self, 
+                                     height=self.controller.height,
+                                     width=self.controller.width * self.controller.NUM_CORE_LENGTH_BLOCKS / self.controller.NUM_LENGTH_BLOCKS,
+                                     bg=self.element_colors["Background"]
+                                     )
+
+        self.controls_canvas = tk.Canvas(self,
+                                         height=self.controller.height,
+                                         width=self.controller.width * self.controller.NUM_CONTROLS_LENGTH_BLOCKS / self.controller.NUM_LENGTH_BLOCKS,
+                                         bg=self.element_colors["Background"]
+                                         )
 
         self.core_canvas.grid(row=0, column=0)
         self.controls_canvas.grid(row=0, column=1)
 
         # Load core if config exists
         if not self.load_configuration():
-            # TODO: request for new .csv file
+            # TODO: request for new .csv file from user
             controller.destroy()
             controller.popup_message("Core configuration csv file not found!")
         """
@@ -108,23 +102,28 @@ class CorePage(tk.Frame):
         Returns:
             True (boolean) if the element was successfully drawn, False otherwise
         """
-        if (element_type in set(self.ELEMENT_COLORS.keys())) and name and topleft_coordinate and bottomright_coordinate:
+        if element_type in set(self.element_colors.keys()):
             # Convert coordinates into pixels
             (topleft_px, bottomright_px) = self.get_pxlocation(topleft_coordinate, bottomright_coordinate)
 
             # If it's a button element, draw in controls_canvas
             if (element_type == "Control Button"):
                 # TODO: change this to a button
+                self.buttons[name] = ControlButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px)
+                self.buttons[name].draw()
+                """
                 # Draw Button
-                self.controls_canvas.create_rectangle(topleft_px[0], topleft_px[1],
-                                                      bottomright_px[0], bottomright_px[1],
-                                                      fill=self.ELEMENT_COLORS[element_type])
+                self.controls_canvas.create_rectangle(topleft_px[0], 
+                                                      topleft_px[1],
+                                                      bottomright_px[0], 
+                                                      bottomright_px[1],
+                                                      fill=self.element_colors[element_type]
+                                                      )
                 # Calculate center pixel used for placing things
-                center_px = ((topleft_px[0] + bottomright_px[0]) / 2,
-                             (topleft_px[1] + bottomright_px[1]) / 2)
+                center_px = ((topleft_px[0] + bottomright_px[0]) / 2, (topleft_px[1] + bottomright_px[1]) / 2)
                 # Draw text
-                self.controls_canvas.create_text(center_px[0], center_px[1],
-                                                 text=name, font=self.controller.MEDIUM_FONT)
+                self.controls_canvas.create_text(center_px[0], center_px[1], text=name, font=self.controller.MEDIUM_FONT)
+                """
             elif (element_type == "Sample"):
                 # TODO: IMPLEMENT
                 pass
@@ -132,10 +131,9 @@ class CorePage(tk.Frame):
                 # Draw rectangle around element
                 self.core_canvas.create_rectangle(topleft_px[0], topleft_px[1],
                                                   bottomright_px[0], bottomright_px[1],
-                                                  fill=self.ELEMENT_COLORS[element_type])
+                                                  fill=self.element_colors[element_type])
                 # Calculate center pixel used for placing things
-                center_px = ((topleft_px[0] + bottomright_px[0]) / 2,
-                             (topleft_px[1] + bottomright_px[1]) / 2)
+                center_px = ((topleft_px[0] + bottomright_px[0]) / 2, (topleft_px[1] + bottomright_px[1]) / 2)
 
                 if (element_type == "Fuel Bundle") and contains:
                     # TODO: Loop somehow
@@ -143,28 +141,28 @@ class CorePage(tk.Frame):
                     # Top left rod
                     self.core_canvas.create_oval(topleft_px[0], topleft_px[1],
                                                  center_px[0], center_px[1],
-                                                 fill=self.ELEMENT_COLORS["Fuel Rod" if rods[0].isnumeric() else "Control Rod"])
+                                                 fill=self.element_colors["Fuel Rod" if rods[0].isnumeric() else "Control Rod"])
                     self.core_canvas.create_text((topleft_px[0] + center_px[0]) / 2,
                                                  (topleft_px[1] + center_px[1]) / 2,
                                                  text=rods[0], font=self.controller.SMALL_FONT)
                     # Top right rod
                     self.core_canvas.create_oval(center_px[0], topleft_px[1],
                                                  bottomright_px[0], center_px[1],
-                                                 fill=self.ELEMENT_COLORS["Fuel Rod" if rods[1].isnumeric() else "Control Rod"])
+                                                 fill=self.element_colors["Fuel Rod" if rods[1].isnumeric() else "Control Rod"])
                     self.core_canvas.create_text((center_px[0] + bottomright_px[0]) / 2,
                                                  (topleft_px[1] + center_px[1]) / 2,
                                                  text=rods[1], font=self.controller.SMALL_FONT)
                     # Bottom left rod
                     self.core_canvas.create_oval(topleft_px[0], center_px[1],
                                                  center_px[0], bottomright_px[1],
-                                                 fill=self.ELEMENT_COLORS["Fuel Rod" if rods[2].isnumeric() else "Control Rod"])
+                                                 fill=self.element_colors["Fuel Rod" if rods[2].isnumeric() else "Control Rod"])
                     self.core_canvas.create_text((topleft_px[0] + center_px[0]) / 2,
                                                  (center_px[1] + bottomright_px[1]) / 2,
                                                  text=rods[2], font=self.controller.SMALL_FONT)
                     # Bottom right rod
                     self.core_canvas.create_oval(center_px[0], center_px[1],
                                                  bottomright_px[0], bottomright_px[1],
-                                                 fill=self.ELEMENT_COLORS["Fuel Rod" if rods[3].isnumeric() else "Control Rod"])
+                                                 fill=self.element_colors["Fuel Rod" if rods[3].isnumeric() else "Control Rod"])
                     self.core_canvas.create_text((center_px[0] + bottomright_px[0]) / 2,
                                                  (center_px[1] + bottomright_px[1]) / 2,
                                                  text=rods[3], font=self.controller.SMALL_FONT)
@@ -203,7 +201,7 @@ class CorePage(tk.Frame):
                     temp_bottomright = row["Bottom Right Coordinate"]
                     temp_contains = row["Contains"]
 
-                    if (temp_type in set(self.ELEMENT_COLORS.keys())):
+                    if (temp_type in set(self.element_colors.keys())):
                         # Update variables (dictionaries)
                         if (temp_canvas == "Core"):
                             self.core_element_types[temp_name] = temp_type
@@ -213,51 +211,13 @@ class CorePage(tk.Frame):
                             self.controls_element_coordinates[temp_name] = (temp_topleft, temp_bottomright)
 
                         if (temp_type == "Fuel Bundle"):
-                            self.fuel_names.add(temp_name)
                             self.fuel_bundles[temp_name] = temp_contains
                         elif (temp_type == "Sample"):
-                            self.sample_names.add(temp_name)
                             self.samples[temp_name] = temp_contains
 
+                        # TODO: move drawing outside of this function, put it in __init__ with a "update page" or smth
                         # Draw element
                         if not self.draw_element(temp_name, temp_type, temp_canvas, temp_topleft, temp_bottomright, temp_contains):
-                            print("Element could not be drawn")
-                            raise ValueError
-
-                    else:
-                        print("Invalid element type")
-                        raise ValueError
-
-            return True
-
-        except csv.Error as e:
-            print(e)
-            return False
-        except ValueError as e:
-            print(e)
-            return False
-
-    def load_controls_configuration(self, filename="controls_configuration.csv"):
-        # TODO: Documentation
-        try:
-            with open(filename, encoding='utf-8-sig') as controls_configuration_data:
-                controls_reader = csv.DictReader(controls_configuration_data)
-
-                # Per row of csv, add stuff
-                for row in controls_reader:
-                    # Set read values to temporary variables
-                    temp_name = row["Button Name"]
-                    temp_topleft = row["Top Left Coordinate"]
-                    temp_bottomright = row["Bottom Right Coordinate"]
-                    temp_type = row["Button Type"]
-
-                    if (temp_type in set(self.ELEMENT_COLORS.keys())):
-                        # Update CorePage variables (dictionaries)
-                        self.controls_element_types[temp_name] = temp_type
-                        self.controls_element_coordinates[temp_name] = (temp_topleft, temp_bottomright)
-
-                        # Draw element
-                        if not self.draw_element(temp_type, temp_name, temp_topleft, temp_bottomright):
                             print("Element could not be drawn")
                             raise ValueError
 

@@ -17,8 +17,6 @@ from core_page import CorePage
 from test_page import TestPage
 
 # %% Main Tkinter class
-
-
 class StatusBoard(tk.Tk):
     """
     Instances of this class are fully functional TKinter Status Board windows

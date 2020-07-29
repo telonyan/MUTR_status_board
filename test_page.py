@@ -10,8 +10,6 @@ Created on Wed Jun 24 16:42:17 2020
 import tkinter as tk
 
 # %% Other page class
-
-
 class TestPage(tk.Frame):
 
     def __init__(self, parent, controller):
