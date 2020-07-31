@@ -1,26 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-Abstract class for elements in the status board
+Class for control button elements in the status board, a child of AbstractElement
 
-Conducted under the Unversity of Maryland
-Created on Wed Jul 28 21:43:44 2020
+Conducted under the Unversity of Maryland Radiation Facilities
+
 @author: Telon J. Yan
 """
 # %% Imports
-from abstract_element import AbstractElement
+from element_abstract import ElementAbstract
 import tkinter as tk
 
 # %% Control Button elements class
-class ControlButton(AbstractElement):
+class ElementButton(ElementAbstract):
     # TODO: DOCUMENTATION
 
     def __init__(self, page, canvas, name, element_type, topleft_px, bottomright_px, contains=None):
         super().__init__(page, canvas, name, element_type, topleft_px, bottomright_px, contains)
+        # FIXME: force this to take a boolean or smth
         self.set_interactable(True)
 
     def draw(self):
         # FIXME: needs command
-        self.button = tk.Button(self.canvas, 
+        self.button = tk.Button(self, 
                                 bg=self.page.element_colors["Control Button"],
                                 text=self.name,
                                 font=self.page.controller.MEDIUM_FONT,
@@ -28,4 +29,5 @@ class ControlButton(AbstractElement):
                                 width=self.width,
                                 height=self.height
                                 )
-        self.button.place(x=self.topleft_px[0], y=self.topleft_px[1], height=self.height, width=self.width)
+        # Width and height are only really important here, not in the Button instantiation
+        self.button.place(x=0, y=0, width=self.width, height=self.height)

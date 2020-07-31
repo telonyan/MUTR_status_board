@@ -2,15 +2,17 @@
 """
 Start page of the MUTR Status board
 
-Conducted under the Unversity of Maryland
-Created on Wed Jun 24 16:34:55 2020
+Conducted under the Unversity of Maryland Radiation Facilities
+
 @author: Telon J. Yan
 """
 # %% Imports
 import tkinter as tk
 import csv
 import re
-from control_button import ControlButton
+from element_button import ElementButton
+from element_noninteractable import ElementNoninteractable
+from element_fuel_bundle import ElementFuelBundle
 
 # %% Core page class
 class CorePage(tk.Frame):
@@ -52,6 +54,7 @@ class CorePage(tk.Frame):
         self.samples = {}
         # Buttons
         self.buttons = {}
+        self.elements = {}
 
         # Set up page properties
 
@@ -106,70 +109,23 @@ class CorePage(tk.Frame):
             # Convert coordinates into pixels
             (topleft_px, bottomright_px) = self.get_pxlocation(topleft_coordinate, bottomright_coordinate)
 
-            # If it's a button element, draw in controls_canvas
+            # If it's a control button element, draw in controls_canvas
             if (element_type == "Control Button"):
-                # TODO: change this to a button
-                self.buttons[name] = ControlButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px)
+                self.buttons[name] = ElementButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px)
                 self.buttons[name].draw()
-                """
-                # Draw Button
-                self.controls_canvas.create_rectangle(topleft_px[0], 
-                                                      topleft_px[1],
-                                                      bottomright_px[0], 
-                                                      bottomright_px[1],
-                                                      fill=self.element_colors[element_type]
-                                                      )
-                # Calculate center pixel used for placing things
-                center_px = ((topleft_px[0] + bottomright_px[0]) / 2, (topleft_px[1] + bottomright_px[1]) / 2)
-                # Draw text
-                self.controls_canvas.create_text(center_px[0], center_px[1], text=name, font=self.controller.MEDIUM_FONT)
-                """
+                # self.buttons[name].hide() <--
+                # self.buttons[name].show() <-- these work too
             elif (element_type == "Sample"):
                 # TODO: IMPLEMENT
                 pass
+                # TODO: non-control buttons - same, but in core
+            elif (element_type == "Fuel Bundle") and contains:
+                self.fuel_bundles[name] = ElementFuelBundle(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+                self.fuel_bundles[name].draw()
             else:
-                # Draw rectangle around element
-                self.core_canvas.create_rectangle(topleft_px[0], topleft_px[1],
-                                                  bottomright_px[0], bottomright_px[1],
-                                                  fill=self.element_colors[element_type])
-                # Calculate center pixel used for placing things
-                center_px = ((topleft_px[0] + bottomright_px[0]) / 2, (topleft_px[1] + bottomright_px[1]) / 2)
-
-                if (element_type == "Fuel Bundle") and contains:
-                    # TODO: Loop somehow
-                    rods = contains.split(",")
-                    # Top left rod
-                    self.core_canvas.create_oval(topleft_px[0], topleft_px[1],
-                                                 center_px[0], center_px[1],
-                                                 fill=self.element_colors["Fuel Rod" if rods[0].isnumeric() else "Control Rod"])
-                    self.core_canvas.create_text((topleft_px[0] + center_px[0]) / 2,
-                                                 (topleft_px[1] + center_px[1]) / 2,
-                                                 text=rods[0], font=self.controller.SMALL_FONT)
-                    # Top right rod
-                    self.core_canvas.create_oval(center_px[0], topleft_px[1],
-                                                 bottomright_px[0], center_px[1],
-                                                 fill=self.element_colors["Fuel Rod" if rods[1].isnumeric() else "Control Rod"])
-                    self.core_canvas.create_text((center_px[0] + bottomright_px[0]) / 2,
-                                                 (topleft_px[1] + center_px[1]) / 2,
-                                                 text=rods[1], font=self.controller.SMALL_FONT)
-                    # Bottom left rod
-                    self.core_canvas.create_oval(topleft_px[0], center_px[1],
-                                                 center_px[0], bottomright_px[1],
-                                                 fill=self.element_colors["Fuel Rod" if rods[2].isnumeric() else "Control Rod"])
-                    self.core_canvas.create_text((topleft_px[0] + center_px[0]) / 2,
-                                                 (center_px[1] + bottomright_px[1]) / 2,
-                                                 text=rods[2], font=self.controller.SMALL_FONT)
-                    # Bottom right rod
-                    self.core_canvas.create_oval(center_px[0], center_px[1],
-                                                 bottomright_px[0], bottomright_px[1],
-                                                 fill=self.element_colors["Fuel Rod" if rods[3].isnumeric() else "Control Rod"])
-                    self.core_canvas.create_text((center_px[0] + bottomright_px[0]) / 2,
-                                                 (center_px[1] + bottomright_px[1]) / 2,
-                                                 text=rods[3], font=self.controller.SMALL_FONT)
-                else:
-                    # Draw text label
-                    self.core_canvas.create_text(center_px[0], center_px[1],
-                                                 text=name, font=self.controller.MEDIUM_FONT)
+                # Draw text label
+                self.elements[name] = ElementNoninteractable(self, self.core_canvas, name, element_type, topleft_px, bottomright_px)
+                self.elements[name].draw()
 
             return True
 

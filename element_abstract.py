@@ -2,8 +2,8 @@
 """
 Abstract class for elements in the status board
 
-Conducted under the Unversity of Maryland
-Created on Fri Jul 24 17:12:36 2020
+Conducted under the Unversity of Maryland Radiation Facilities
+
 @author: Telon J. Yan
 """
 # %% Imports
@@ -11,12 +11,17 @@ from abc import ABC, abstractmethod
 import tkinter as tk
 
 # %% Abstract Element of reactor core class
-class AbstractElement(tk.Canvas, ABC):
+class ElementAbstract(tk.Canvas, ABC):
     # TODO: DOCUMENTATION
 
     def __init__(self, page, canvas, name, element_type, topleft_px, bottomright_px, contains=None):
         # TODO: DOCUMENTATION
-        super().__init__(canvas, width=bottomright_px[0]-topleft_px[0], height=bottomright_px[1]-topleft_px[1], bg=page.element_colors["Background"])
+        super().__init__(canvas, 
+                         width=bottomright_px[0]-topleft_px[0], 
+                         height=bottomright_px[1]-topleft_px[1], 
+                         bg=page.element_colors["Background"], 
+                         highlightthickness=0
+                         )
         self.page = page
         self.canvas = canvas
         self.name = name
@@ -27,7 +32,10 @@ class AbstractElement(tk.Canvas, ABC):
 
         self.width = self.bottomright_px[0]-self.topleft_px[0]
         self.height = self.bottomright_px[1]-self.topleft_px[1]
+        self.center_px = ((self.topleft_px[0]+self.bottomright_px[0])/2, (self.topleft_px[1]+self.bottomright_px[1])/2)
         self.interactable = False
+
+        self.place(x=self.topleft_px[0], y=self.topleft_px[1], height=self.height, width=self.width)
 
     def get_name(self):
         return self.name
@@ -43,16 +51,20 @@ class AbstractElement(tk.Canvas, ABC):
         return self.element_type
 
     def is_interactable(self):
+        # TODO: DOCUMENTATION
         return self.interactable
 
     def set_interactable(self, interactable):
+        # TODO: DOCUMENTATION
         self.interactable = interactable
 
     def hide(self):
+        # TODO: DOCUMENTATION
         self.place_forget()
 
     def show(self):
-        self.place()
+        # TODO: DOCUMENTATION
+        self.place(x=self.topleft_px[0], y=self.topleft_px[1], height=self.height, width=self.width)
 
     @abstractmethod
     def draw(self):

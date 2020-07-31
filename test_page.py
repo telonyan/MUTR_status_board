@@ -2,8 +2,8 @@
 """
 Temporary test page of the MUTR Status board
 
-Conducted under the Unversity of Maryland
-Created on Wed Jun 24 16:42:17 2020
+Conducted under the Unversity of Maryland Radiation Facilities
+
 @author: Telon J. Yan
 """
 # %% Imports

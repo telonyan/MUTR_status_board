@@ -3,10 +3,8 @@
 An interactive status board for the Maryland University Training Reactor (MUTR)
 This file
 
-Tries to follow standard code style: https://www.python.org/dev/peps/pep-0008
+Conducted under the Unversity of Maryland Radiation Facilities
 
-Conducted under the Unversity of Maryland
-Created on Thu Jun 25 14:45:17 2020
 @author: Telon J. Yan
 """
 
