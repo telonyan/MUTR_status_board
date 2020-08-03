@@ -10,9 +10,12 @@ Conducted under the Unversity of Maryland Radiation Facilities
 import tkinter as tk
 import csv
 import re
-from element_button import ElementButton
-from element_noninteractable import ElementNoninteractable
+from element_control_button import ElementControlButton
 from element_fuel_bundle import ElementFuelBundle
+from element_fuel_storage import ElementFuelStorage
+from element_sample import ElementSample
+from element_sample_chamber import ElementSampleChamber
+from element_noninteractable import ElementNoninteractable
 
 # %% Core page class
 class CorePage(tk.Frame):
@@ -106,22 +109,29 @@ class CorePage(tk.Frame):
             True (boolean) if the element was successfully drawn, False otherwise
         """
         if element_type in set(self.element_colors.keys()):
+            # FIXME: Do something to prevent duplicate names from happened
             # Convert coordinates into pixels
             (topleft_px, bottomright_px) = self.get_pxlocation(topleft_coordinate, bottomright_coordinate)
 
             # If it's a control button element, draw in controls_canvas
             if (element_type == "Control Button"):
-                self.buttons[name] = ElementButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px)
+                self.buttons[name] = ElementControlButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px)
                 self.buttons[name].draw()
                 # self.buttons[name].hide() <--
                 # self.buttons[name].show() <-- these work too
-            elif (element_type == "Sample"):
-                # TODO: IMPLEMENT
-                pass
-                # TODO: non-control buttons - same, but in core
             elif (element_type == "Fuel Bundle") and contains:
                 self.fuel_bundles[name] = ElementFuelBundle(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
                 self.fuel_bundles[name].draw()
+            elif (element_type == "Fuel Storage"):
+                self.elements[name] = ElementFuelStorage(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+                self.elements[name].draw()
+            elif (element_type == "Sample"):
+                self.elements[name] = ElementSample(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+                self.elements[name].draw()
+                pass
+            elif (element_type == "Sample Chamber"):
+                self.elements[name] = ElementSampleChamber(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+                self.elements[name].draw()
             else:
                 # Draw text label
                 self.elements[name] = ElementNoninteractable(self, self.core_canvas, name, element_type, topleft_px, bottomright_px)

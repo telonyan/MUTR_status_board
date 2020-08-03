@@ -22,6 +22,7 @@ class ElementAbstract(tk.Canvas, ABC):
                          bg=page.element_colors["Background"], 
                          highlightthickness=0
                          )
+        # Assign instance variables = parameters
         self.page = page
         self.canvas = canvas
         self.name = name
@@ -29,7 +30,7 @@ class ElementAbstract(tk.Canvas, ABC):
         self.topleft_px = topleft_px
         self.bottomright_px = bottomright_px
         self.contains = contains
-
+        # Calculate variables based on parameters
         self.width = self.bottomright_px[0]-self.topleft_px[0]
         self.height = self.bottomright_px[1]-self.topleft_px[1]
         self.center_px = ((self.topleft_px[0]+self.bottomright_px[0])/2, (self.topleft_px[1]+self.bottomright_px[1])/2)

@@ -11,7 +11,7 @@ from element_abstract import ElementAbstract
 import tkinter as tk
 
 # %% Control Button elements class
-class ElementButton(ElementAbstract):
+class ElementControlButton(ElementAbstract):
     # TODO: DOCUMENTATION
 
     def __init__(self, page, canvas, name, element_type, topleft_px, bottomright_px, contains=None):
