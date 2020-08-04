@@ -225,7 +225,7 @@ class ArduinoControl:
 
 
 class Controls:
-    # canvas = Canvas button's placed on, module = button text, font = font size, key = location key
+    # canvas = Canvas button's placed on, module = button text string, font = font size, key = location key
     def __init__(self,canvas,module,init_state,x1,y1,width,height,font,key):
         self.key = key
         self.x1 = int(x1)

@@ -22,7 +22,7 @@ class ElementControlButton(ElementAbstract):
     def draw(self):
         # FIXME: needs command
         self.button = tk.Button(self, 
-                                bg=self.page.element_colors["Control Button"],
+                                bg=self.page.element_colors[self.element_type],
                                 text=self.name,
                                 font=self.page.controller.MEDIUM_FONT,
                                 wrap=self.width,

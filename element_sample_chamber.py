@@ -26,5 +26,17 @@ class ElementSampleChamber(ElementAbstract):
                          width=self.width
                          )
         # TODO: Add buttons and hide them
+        self.select_button = tk.Button(self, 
+                                bg=self.page.element_colors["Element Button"],
+                                text="Select",
+                                font=self.page.controller.SMALL_FONT,
+                                )
+        # Width and height are only really important here, not in the Button instantiation
+        self.select_button.place(x=self.width/2-self.page.controller.cell_size/2, 
+                          y=self.height/2+self.page.controller.cell_size/4, 
+                          width=self.page.controller.cell_size, 
+                          height=self.page.controller.cell_size/2
+                          )
+        self.select_button.place_forget()
     
     # TODO: Add functions to deal with the buttons

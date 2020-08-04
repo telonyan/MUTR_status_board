@@ -43,7 +43,7 @@ class CorePage(tk.Frame):
                                "Imaging Chamber": "spring green", "Sample Chamber": "bisque",
                                "Fuel Storage": "turquoise", "Fuel Bundle": "powder blue",
                                "Fuel Rod": "sky blue", "Control Rod": "pink", "Sample": "light goldenrod",
-                               "Control Button": "lemon chiffon", "Background": "white"}
+                               "Control Button": "lemon chiffon", "Element Button":"floral white", "Background": "white"}
         # Dictionaries that basically hold all the configuration information
         # Element_name: grid coords (topleft [0-9][A-Z], bottomright [0-9][A-Z])
         self.core_element_coordinates = {}
@@ -51,13 +51,14 @@ class CorePage(tk.Frame):
         # Element_name: element_type
         self.core_element_types = {}
         self.controls_element_types = {}
-        # Fuel element_name: fuel element_contains
-        self.fuel_bundles = {}
-        # Sample element_name: sample element_contains
-        self.samples = {}
-        # Buttons
-        self.buttons = {}
+        # # Fuel element_name: fuel element_contains
+        # self.fuel_bundles = {}
+        # # Sample element_name: sample element_contains
+        # self.samples = {}
+        # # Buttons
+        # self.buttons = {}
         self.elements = {}
+
 
         # Set up page properties
 
@@ -84,8 +85,8 @@ class CorePage(tk.Frame):
         # Load core if config exists
         if not self.load_configuration():
             # TODO: request for new .csv file from user
-            controller.destroy()
-            controller.popup_message("Core configuration csv file not found!")
+            self.controller.destroy()
+            self.controller.popup_message("configuration csv file not found!")
         """
         elif not self.load_controls_configuration():
             # FIXME: Make sure this is fine
@@ -115,27 +116,24 @@ class CorePage(tk.Frame):
 
             # If it's a control button element, draw in controls_canvas
             if (element_type == "Control Button"):
-                self.buttons[name] = ElementControlButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px)
-                self.buttons[name].draw()
-                # self.buttons[name].hide() <--
-                # self.buttons[name].show() <-- these work too
+                self.elements[name] = ElementControlButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px)
+            # If it's a fuel bundle (requires contains variable)
             elif (element_type == "Fuel Bundle") and contains:
-                self.fuel_bundles[name] = ElementFuelBundle(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
-                self.fuel_bundles[name].draw()
+                self.elements[name] = ElementFuelBundle(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+            # If it's a fuel storage element
             elif (element_type == "Fuel Storage"):
                 self.elements[name] = ElementFuelStorage(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
-                self.elements[name].draw()
+            # If it's a sample
             elif (element_type == "Sample"):
                 self.elements[name] = ElementSample(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
-                self.elements[name].draw()
-                pass
+            # If it's a sample chamber
             elif (element_type == "Sample Chamber"):
                 self.elements[name] = ElementSampleChamber(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
-                self.elements[name].draw()
+            # If it's any other kind of element (Base, Instrument), it doesn't interact with anything (for now at least)
             else:
-                # Draw text label
                 self.elements[name] = ElementNoninteractable(self, self.core_canvas, name, element_type, topleft_px, bottomright_px)
-                self.elements[name].draw()
+
+            self.elements[name].draw()
 
             return True
 
@@ -176,10 +174,10 @@ class CorePage(tk.Frame):
                             self.controls_element_types[temp_name] = temp_type
                             self.controls_element_coordinates[temp_name] = (temp_topleft, temp_bottomright)
 
-                        if (temp_type == "Fuel Bundle"):
-                            self.fuel_bundles[temp_name] = temp_contains
-                        elif (temp_type == "Sample"):
-                            self.samples[temp_name] = temp_contains
+                        # if (temp_type == "Fuel Bundle"):
+                        #     self.fuel_bundles[temp_name] = temp_contains
+                        # elif (temp_type == "Sample"):
+                        #     self.samples[temp_name] = temp_contains
 
                         # TODO: move drawing outside of this function, put it in __init__ with a "update page" or smth
                         # Draw element
@@ -193,6 +191,9 @@ class CorePage(tk.Frame):
 
             return True
 
+        except FileNotFoundError as e:
+            print(e)
+            return False
         except csv.Error as e:
             print(e)
             return False
