@@ -10,16 +10,19 @@ Conducted under the Unversity of Maryland Radiation Facilities
 import tkinter as tk
 
 # %% Other page class
-class TestPage(tk.Frame):
+class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
+        # TODO: DOCUMENTATION
+        # TODO: select config file
+
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        title_label = tk.Label(self, text="This is page 1",
+        title_label = tk.Label(self, text="Choose a configuration csv file",
                                font=controller.LARGE_FONT)
         title_label.pack(side="top", fill="x", pady=10)
 
-        button0 = tk.Button(self, text="Go to the core page", font=controller.SMALL_FONT,
+        button0 = tk.Button(self, text="Select", font=controller.SMALL_FONT,
                             command=lambda: controller.show_frame("CorePage"))
         button0.pack()

@@ -27,7 +27,14 @@ class ElementControlButton(ElementAbstract):
                                 font=self.page.controller.MEDIUM_FONT,
                                 wrap=self.width,
                                 width=self.width,
-                                height=self.height
+                                height=self.height,
+                                command=lambda: self.page.change_state_string(self.name)
                                 )
         # Width and height are only really important here, not in the Button instantiation
         self.button.place(x=0, y=0, width=self.width, height=self.height)
+
+    def disable(self):
+        self.button["state"] = tk.DISABLED
+    
+    def enable(self):
+        self.button["state"] = tk.NORMAL

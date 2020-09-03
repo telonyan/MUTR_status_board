@@ -12,7 +12,7 @@ Conducted under the Unversity of Maryland Radiation Facilities
 import tkinter as tk
 # Import user-defined pages
 from core_page import CorePage
-from test_page import TestPage
+from start_page import StartPage
 
 # %% Main Tkinter class
 class StatusBoard(tk.Tk):
@@ -71,7 +71,7 @@ class StatusBoard(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         # Populate self.frames
-        for F in (CorePage, TestPage):
+        for F in (CorePage, StartPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -101,7 +101,11 @@ class StatusBoard(tk.Tk):
         self.config(menu=menubar)
 
         # Start up the program on the core page
-        self.show_frame("CorePage")
+        self.show_frame("StartPage")
+
+    def __repr__(self):
+        # TODO: DOCUMENTATION
+        return "{self.__class__.__name__}()".format(self=self)
 
     # %% show_frame method
     def show_frame(self, page_name):

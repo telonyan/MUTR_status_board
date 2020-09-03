@@ -10,6 +10,7 @@ Conducted under the Unversity of Maryland Radiation Facilities
 import tkinter as tk
 import csv
 import re
+import board_state
 from element_control_button import ElementControlButton
 from element_fuel_bundle import ElementFuelBundle
 from element_fuel_storage import ElementFuelStorage
@@ -35,6 +36,7 @@ class CorePage(tk.Frame):
         """
         # Inheritance
         super().__init__(parent)
+        self.parent = parent
         self.controller = controller
 
         # Variables in this reactor core page instance
@@ -58,7 +60,9 @@ class CorePage(tk.Frame):
         # # Buttons
         # self.buttons = {}
         self.elements = {}
-
+        
+        # FIXME: Turn this into board_state.Loading()
+        self.state = board_state.Loading()
 
         # Set up page properties
 
@@ -87,59 +91,13 @@ class CorePage(tk.Frame):
             # TODO: request for new .csv file from user
             self.controller.destroy()
             self.controller.popup_message("configuration csv file not found!")
-        """
-        elif not self.load_controls_configuration():
-            # FIXME: Make sure this is fine
-            controller.destroy()
-            controller.popup_message(
-                "Controls configuration csv file not found!")
-        """
+        else:
+            self.update_core()
+    
+    def __repr__(self):
+        return "{self.__class__.__name__}(parent={self.parent}, controller={self.controller})".format(self=self)
 
-    def draw_element(self, name, element_type, canvas, topleft_coordinate, bottomright_coordinate, contains=None):
-        """
-        Draws an element specified by method parameters
-
-        Parameters:
-            element_type (String): The type of element. Must be a valid type
-            name (String): Name of the element, usually used to label it
-            topleft_px (tuple): (x,y) tuple of the element's top left px position
-                bottomright_px (tuple): (x,y) tuple of the element's bottom right px position
-                contains (String): Stuff contained in this element. See configuration.csv for details
-
-        Returns:
-            True (boolean) if the element was successfully drawn, False otherwise
-        """
-        if element_type in set(self.element_colors.keys()):
-            # FIXME: Do something to prevent duplicate names from happened
-            # Convert coordinates into pixels
-            (topleft_px, bottomright_px) = self.get_pxlocation(topleft_coordinate, bottomright_coordinate)
-
-            # If it's a control button element, draw in controls_canvas
-            if (element_type == "Control Button"):
-                self.elements[name] = ElementControlButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px)
-            # If it's a fuel bundle (requires contains variable)
-            elif (element_type == "Fuel Bundle") and contains:
-                self.elements[name] = ElementFuelBundle(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
-            # If it's a fuel storage element
-            elif (element_type == "Fuel Storage"):
-                self.elements[name] = ElementFuelStorage(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
-            # If it's a sample
-            elif (element_type == "Sample"):
-                self.elements[name] = ElementSample(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
-            # If it's a sample chamber
-            elif (element_type == "Sample Chamber"):
-                self.elements[name] = ElementSampleChamber(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
-            # If it's any other kind of element (Base, Instrument), it doesn't interact with anything (for now at least)
-            else:
-                self.elements[name] = ElementNoninteractable(self, self.core_canvas, name, element_type, topleft_px, bottomright_px)
-
-            self.elements[name].draw()
-
-            return True
-
-        return False
-
-    def load_configuration(self, filename="configuration.csv"):
+    def load_configuration(self, filename="./configuration.csv"):
         """
         Parses a .csv file of a reactor core's configuration and
         loads the element data into self.
@@ -182,13 +140,12 @@ class CorePage(tk.Frame):
                         # TODO: move drawing outside of this function, put it in __init__ with a "update page" or smth
                         # Draw element
                         if not self.draw_element(temp_name, temp_type, temp_canvas, temp_topleft, temp_bottomright, temp_contains):
-                            print("Element could not be drawn")
-                            raise ValueError
+                            raise ValueError("Element " + temp_name + " could not be drawn")
 
                     else:
-                        print("Invalid element type")
-                        raise ValueError
+                        raise ValueError("Invalid element type: " + temp_type)
 
+            self.change_state(board_state.Ready)
             return True
 
         except FileNotFoundError as e:
@@ -200,6 +157,123 @@ class CorePage(tk.Frame):
         except ValueError as e:
             print(e)
             return False
+
+    def update_core(self):
+        """
+        Updates the core page elements based on its state
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
+        if (self.state.equals(board_state.Ready)):
+            # Enable control buttons
+            self.control_buttons_enable()
+            # Hide all core buttons
+            pass
+        elif (self.state.equals(board_state.MoveFuelSelectFuel)):
+            # Pop-up
+            self.controller.popup_message("Choose a fuel bundle to move")
+            # Disable control buttons
+            self.control_buttons_disable()
+            # Show fuel bundle select buttons
+            self.fuel_bundle_buttons_show()
+            # Show fuel storage select buttons
+            pass
+        elif (self.state == board_state.MoveFuelSelectPlace):
+            # Pop-up
+            # Hide fuel bundle/fuel storage buttons
+            pass
+        print(self.state)
+
+    def change_state_string(self, state_string):
+        """
+        Changes the state of the CorePage instance and updates core
+        
+        Parameters:
+            state (string): A string representing the state the core will change to.
+                If it is not a valid state string, raises a ValueError
+        
+        Returns:
+            None
+        """
+        if (state_string == "Ready"):
+            self.state.switch(board_state.Ready)
+        if (state_string == "Move Fuel"):
+            self.state.switch(board_state.MoveFuelSelectFuel)
+        elif (state_string == "Add Fuel"):
+            self.state.switch(board_state.AddFuelSelectPlace)
+        elif (state_string == "Remove Fuel"):
+            self.state.switch(board_state.RemoveFuelSelectFuel)
+        elif (state_string == "Add Sample"):
+            self.state.switch(board_state.AddSampleSelectPlace)
+        elif (state_string == "Remove Sample"):
+            self.state.switch(board_state.RemoveSampleSelectSample)
+        else: 
+            raise ValueError("Invalid state string")
+
+        self.update_core()
+    
+    def change_state(self, state):
+        """
+        Changes the state of the CorePage instance
+
+        Parameters:
+            state (Class): A subclass of BoardState as specified in board_state.py;
+                the state to change to. If it is not a valid state or the state
+                change is invalid, raises a ValueError
+        
+        Returns:
+            None
+        """
+        self.state.switch(state)
+        self.update_core()
+
+    def draw_element(self, name, element_type, canvas, topleft_coordinate, bottomright_coordinate, contains=None):
+        """
+        Draws an element specified by method parameters
+
+        Parameters:
+            element_type (String): The type of element. Must be a valid type
+            name (String): Name of the element, usually used to label it
+            topleft_px (tuple): (x,y) tuple of the element's top left px position
+                bottomright_px (tuple): (x,y) tuple of the element's bottom right px position
+                contains (String): Stuff contained in this element. See configuration.csv for details
+
+        Returns:
+            True (boolean) if the element was successfully drawn, False otherwise
+        """
+        if element_type in set(self.element_colors.keys()):
+            # FIXME: Do something to prevent duplicate names from happened
+            # Convert coordinates into pixels
+            (topleft_px, bottomright_px) = self.get_pxlocation(topleft_coordinate, bottomright_coordinate)
+
+            # If it's a control button element, draw in controls_canvas
+            if (element_type == "Control Button"):
+                self.elements[name] = ElementControlButton(self, self.controls_canvas, name, element_type, topleft_px, bottomright_px, contains)
+            # If it's a fuel bundle (requires contains variable)
+            elif (element_type == "Fuel Bundle") and contains:
+                self.elements[name] = ElementFuelBundle(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+            # If it's a fuel storage element
+            elif (element_type == "Fuel Storage"):
+                self.elements[name] = ElementFuelStorage(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+            # If it's a sample
+            elif (element_type == "Sample"):
+                self.elements[name] = ElementSample(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+            # If it's a sample chamber
+            elif (element_type == "Sample Chamber"):
+                self.elements[name] = ElementSampleChamber(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+            # If it's any other kind of element (Base, Instrument), it doesn't interact with anything (for now at least)
+            else:
+                self.elements[name] = ElementNoninteractable(self, self.core_canvas, name, element_type, topleft_px, bottomright_px, contains)
+
+            self.elements[name].draw()
+
+            return True
+
+        return False
 
     def get_pxlocation(self, topleft_coordinate, bottomright_coordinate):
         """
@@ -230,3 +304,21 @@ class CorePage(tk.Frame):
                           int(bottomright_split[0])*self.controller.cell_size)
 
         return (topleft_px, bottomright_px)
+
+    ############ Command methods
+    def control_buttons_disable(self):
+        print("TEST CONTROL")
+        for element in self.elements.values():
+            if element.get_type() == "Control Button":
+                element.disable()
+
+    def control_buttons_enable(self):
+        for element in self.elements.values():
+            if element.get_type() == "Control Button":
+                element.enable()
+    
+    def fuel_bundle_buttons_show(self):
+        print("TEST FUEL")
+        for element in self.elements.values():
+            if element.get_type() == "Fuel Bundle":
+                element.button_show()

@@ -57,7 +57,10 @@ class ElementAbstract(tk.Canvas, ABC):
 
     def set_interactable(self, interactable):
         # TODO: DOCUMENTATION
-        self.interactable = interactable
+        if interactable == True or interactable == False:
+            self.interactable = interactable
+        else:
+            raise ValueError
 
     def hide(self):
         # TODO: DOCUMENTATION

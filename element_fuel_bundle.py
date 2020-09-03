@@ -53,3 +53,8 @@ class ElementFuelBundle(ElementAbstract):
         
 
     # TODO: Add functions to deal with the buttons
+    def button_show(self):
+        self.select_button.place()
+    
+    def button_hide(self):
+        self.select_button.place_forget()

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Core States
+Board State class and State Classes
 
 Conducted under the Unversity of Maryland Radiation Facilities
 
 @author: Telon J. Yan
 """
 
-class CoreState(object):
+class BoardState(object):
 
     name = "state"
     allowed = []
@@ -17,12 +17,21 @@ class CoreState(object):
         if state.name in self.allowed:
             self.__class__ = state
         else:
-            raise ValueError
+            raise ValueError("Invalid state switch from current state: " + str(self) + " to target state: " + state.name)
     
+    def equals(self, state):
+        if self.name == state.name:
+            return True
+        return False
+
     def __str__(self):
         return self.name
 
-class Ready(CoreState):
+class Loading(BoardState):
+    name = "loading"
+    allowed = ["ready"]
+
+class Ready(BoardState):
     name = "ready"
     allowed = ["move_fuel_select_fuel", 
                "add_fuel_select_place", 
@@ -31,34 +40,34 @@ class Ready(CoreState):
                "remove_sample_select_sample"
                ]
 
-class MoveFuelSelectFuel(CoreState):
+class MoveFuelSelectFuel(BoardState):
     name = "move_fuel_select_fuel"
     allowed = ["move_fuel_select_place"]
 
-class MoveFuelSelectPlace(CoreState):
+class MoveFuelSelectPlace(BoardState):
     name = "move_fuel_select_place"
     allowed = ["ready"]
 
-class AddFuelSelectPlace(CoreState):
+class AddFuelSelectPlace(BoardState):
     name = "add_fuel_select_place"
     allowed = ["add_fuel_specify_fuel"]
 
-class AddFuelSpecifyFuel(CoreState):
+class AddFuelSpecifyFuel(BoardState):
     name = "add_fuel_specify_fuel"
     allowed = ["ready"]
 
-class RemoveFuelSelectFuel(CoreState):
+class RemoveFuelSelectFuel(BoardState):
     name = "remove_fuel_select_fuel"
     allowed = ["ready"]
 
-class AddSampleSelectPlace(CoreState):
+class AddSampleSelectPlace(BoardState):
     name = "add_sample_select_place"
     allowed = ["add_sample_specify_sample"]
 
-class AddSampleSpecifySample(CoreState):
+class AddSampleSpecifySample(BoardState):
     name = "add_sample_specify_sample"
     allowed = ["ready"]
 
-class RemoveSampleSelectSample(CoreState):
+class RemoveSampleSelectSample(BoardState):
     name = "remove_sample_select_sample"
     allowed = ["ready"]
